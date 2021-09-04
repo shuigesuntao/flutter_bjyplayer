@@ -1,3 +1,5 @@
+part of flutter_bjyplayer;
+
 class BjyPlayerConst {
   // 播放状态
   static final String stateError = "STATE_ERROR";
