@@ -60,6 +60,7 @@ class BjyPlayerController {
 
   void dispose() {
     assert(_debugAssertNotDisposed());
+    released();
     _listeners = null;
   }
 
@@ -115,6 +116,10 @@ class BjyPlayerController {
 
   void rePlay(){
     _channel!.invokeMethod('rePlay', {});
+  }
+
+  void released(){
+    _channel!.invokeMethod('released', {});
   }
 
   void seek(int time) {

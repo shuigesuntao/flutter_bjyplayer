@@ -87,6 +87,9 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
             case "stop":
                 mVideoView.getPlayer().stop();
                 break;
+            case "released":
+                BjyVideoPlayManager.releaseMedia();
+                break;
             case "rePlay":
                 mVideoView.getPlayer().rePlay();
                 break;
