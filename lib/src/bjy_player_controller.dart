@@ -18,14 +18,16 @@ class BjyPlayerController {
     _eventChannel!.receiveBroadcastStream().listen(_onEvent);
   }
 
-  _onEvent(dynamic event) {
+  _onEvent(dynamic event) async{
     if(event is Map){
       String listener = '${event['listener']}';
       String method = '${event['method']}';
 
       switch (listener) {
         case 'BjyPlayerListener':
-          notifyListeners(method, event['data']);
+          if(!await isReleased()){
+            notifyListeners(method, event['data']);
+          }
           break;
       }
     }
