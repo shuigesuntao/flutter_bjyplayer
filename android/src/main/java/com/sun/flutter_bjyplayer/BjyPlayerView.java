@@ -79,6 +79,7 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
                 break;
             case "bindPlayerView":
                 BjyVideoPlayManager.getMediaPlayer(mFlutterPluginBinding.getApplicationContext()).bindPlayerView(mVideoView.getBjyPlayerView());
+                VideoHelper.resetRenderTypeTexture(mVideoView);
                 break;
             case "play":
                 mVideoView.getPlayer().play();
