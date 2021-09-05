@@ -47,6 +47,7 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
         super();
         mContext = context;
         mFlutterPluginBinding = flutterPluginBinding;
+        BjyVideoPlayManager.releaseMedia();
         mContainerView = LayoutInflater.from(context).inflate(R.layout.layout_video, null, false);
         mVideoView = mContainerView.findViewById(R.id.plv_video);
         mVideoView.initPlayer(BjyVideoPlayManager.getMediaPlayer(mFlutterPluginBinding.getApplicationContext()));
