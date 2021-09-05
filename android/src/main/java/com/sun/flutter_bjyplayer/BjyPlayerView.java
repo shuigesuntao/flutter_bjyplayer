@@ -45,6 +45,7 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
         mContainerView = LayoutInflater.from(context).inflate(R.layout.layout_video, null, false);
         mVideoView = mContainerView.findViewById(R.id.plv_video);
         mVideoView.initPlayer(BjyVideoPlayManager.getMediaPlayer(mFlutterPluginBinding.getApplicationContext()));
+        VideoHelper.resetRenderTypeTexture(mVideoView);
         mVideoView.setComponentEventListener(this);
         mVideoView.getPlayer().addOnPlayingTimeChangeListener(this);
         mVideoView.getPlayer().addOnPlayerStatusChangeListener(this);
@@ -70,6 +71,7 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
         switch (call.method){
             case "init":
                 mVideoView.initPlayer(BjyVideoPlayManager.getMediaPlayer(mFlutterPluginBinding.getApplicationContext()));
+                VideoHelper.resetRenderTypeTexture(mVideoView);
                 break;
             case "isReleased":
                 Boolean isReleased = BjyVideoPlayManager.isReleased();
