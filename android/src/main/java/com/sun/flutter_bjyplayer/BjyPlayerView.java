@@ -1,5 +1,6 @@
 package com.sun.flutter_bjyplayer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +17,13 @@ import com.baijiayun.videoplayer.listeners.OnPlayingTimeChangeListener;
 import com.baijiayun.videoplayer.player.PlayerStatus;
 import com.baijiayun.videoplayer.ui.event.UIEventKey;
 import com.baijiayun.videoplayer.ui.listener.IComponentEventListener;
+import com.lzf.easyfloat.permission.PermissionUtils;
 import com.sun.flutter_bjyplayer.sdk_player.component.FloatControllerComponent;
 import com.sun.flutter_bjyplayer.sdk_player.manager.BjyVideoPlayManager;
 import com.sun.flutter_bjyplayer.sdk_player.manager.VideoHelper;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 import com.sun.flutter_bjyplayer.sdk_player.widget.NjVideoView;
+import com.sun.flutter_bjyplayer.utils.CommonMDDialog;
 import com.sun.flutter_bjyplayer.videoplayer.ui.widget.ComponentContainerHelper;
 
 import java.util.HashMap;
@@ -112,6 +115,14 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
             case "setUserInfo":
                 mVideoView.getPlayer().setUserInfo(call.argument("username"),call.argument("userId"));
                 break;
+            case "tryOpenFloatViewPlay":
+                tryOpenFloatViewPlay(needReleasePlayer -> {
+                    if (needReleasePlayer) {
+                        BjyVideoPlayManager.releaseMedia();
+                    }
+                    result.success(null);
+                });
+                break;
             case "setupOnlineVideoWithId":
                 String videoId = "";
                 String token = "";
@@ -123,6 +134,32 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
                     mVideoView.getPlayer().setupOnlineVideoWithId(Long.parseLong(videoId),token);
                 }
                 break;
+        }
+    }
+    public interface ActionCallBack {
+        void call(boolean needStopPlayer);
+    }
+    private void tryOpenFloatViewPlay(final ActionCallBack actionCallBack) {
+        if (mVideoView.getPlayer() == null || !mVideoView.getPlayer().isPlaying()) {
+            actionCallBack.call(true);
+            return;
+        }
+        if (PermissionUtils.checkPermission(mContext)) {
+            BjyVideoPlayManager.addFloatingView((Activity) mContext, () -> actionCallBack.call(false));
+        } else {
+            final CommonMDDialog commonmddialog = new CommonMDDialog(mContext);
+            commonmddialog.setContentTxt("开启浮窗播放功能，需要您授权悬浮窗权限。")
+                    .setNegativeTxt("暂不开启")
+                    .setOnNegativeClickListener(() -> {
+                        commonmddialog.dismiss();
+                        actionCallBack.call(true);
+                    })
+                    .setPositiveTxt("去开启")
+                    .setOnPositiveClickListener(() -> {
+                        commonmddialog.dismiss();
+                        BjyVideoPlayManager.addFloatingView((Activity) mContext, () -> actionCallBack.call(false));
+                    }).show();
+
         }
     }
 

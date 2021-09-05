@@ -64,7 +64,6 @@ class BjyPlayerController {
   }
 
   void dispose() {
-    released();
     assert(_debugAssertNotDisposed());
     _listeners = null;
   }
@@ -153,6 +152,11 @@ class BjyPlayerController {
     };
     _channel!.invokeMethod('setupOnlineVideoWithId', arguments);
   }
+
+  void tryOpenFloatViewPlay(String videoId,String token){
+    _channel!.invokeMethod('tryOpenFloatViewPlay', {});
+  }
+
 
   Future<bool> isReleased() async {
     return await _channel!.invokeMethod('isReleased', {});
