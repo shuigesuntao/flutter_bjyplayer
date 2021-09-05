@@ -121,10 +121,10 @@ public class BjyVideoPlayManager {
                     NjVideoView mPlvVideo = floatingView.findViewById(R.id.plv_video);
                     mPlvVideo.initPlayer(BjyVideoPlayManager.getMediaPlayer(floatingView.getContext()));
                     try {
-                        for (int i = 0; i < mPlvVideo.getComponentContainer().getChildCount(); i++) {
-                            mPlvVideo.getComponentContainer().getChildAt(i).setVisibility(View.INVISIBLE);
-                        }
-                        mPlvVideo.getComponentContainer().setVisibility(View.INVISIBLE);
+//                        for (int i = 0; i < mPlvVideo.getComponentContainer().getChildCount(); i++) {
+//                            mPlvVideo.getComponentContainer().getChildAt(i).setVisibility(View.INVISIBLE);
+//                        }
+//                        mPlvVideo.getComponentContainer().setVisibility(View.INVISIBLE);
                         FloatControllerComponent component = new FloatControllerComponent(mPlvVideo.getContext());
                         mPlvVideo.getComponentContainer().removeAllViews();
                         mPlvVideo.getComponentContainer().addComponent(UIEventKey.KEY_CONTROLLER_COMPONENT, component);
