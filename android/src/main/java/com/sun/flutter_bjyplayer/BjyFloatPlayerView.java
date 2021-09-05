@@ -45,17 +45,17 @@ public class BjyFloatPlayerView implements PlatformView, MethodChannel.MethodCal
         mFlutterPluginBinding = flutterPluginBinding;
         mContainerView = LayoutInflater.from(context).inflate(R.layout.player_floating_view, null, false);
         mVideoView = mContainerView.findViewById(R.id.plv_video);
-        mVideoView.initPlayer(BjyVideoPlayManager.getMediaPlayer(mFlutterPluginBinding.getApplicationContext()));
+        mVideoView.initPlayer(BjyVideoPlayManager.getMediaPlayer(context));
         VideoHelper.resetRenderTypeTexture(mVideoView);
         try {
             for (int i = 0; i < mVideoView.getComponentContainer().getChildCount(); i++) {
                 mVideoView.getComponentContainer().getChildAt(i).setVisibility(View.INVISIBLE);
             }
             mVideoView.getComponentContainer().setVisibility(View.INVISIBLE);
-            FloatControllerComponent component = new FloatControllerComponent(mVideoView.getContext());
+            FloatControllerComponent component = new FloatControllerComponent(context);
             mVideoView.getComponentContainer().removeAllViews();
             mVideoView.getComponentContainer().addComponent(UIEventKey.KEY_CONTROLLER_COMPONENT, component);
-
+            Log.e("Sun","添加自定义FloatController");
         } catch (Exception ee) {
             Log.e("Sun",ee.getMessage());
         }
