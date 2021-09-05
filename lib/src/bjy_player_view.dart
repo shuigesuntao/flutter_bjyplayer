@@ -20,14 +20,18 @@ class BjyPlayerView extends StatelessWidget{
       return AndroidView(
         viewType: isFloat?'bjy_float_player_view':'bjy_player_view',
         onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: <String, dynamic>{},
+        creationParams: <String, dynamic>{
+          "isFloat":isFloat
+        },
         creationParamsCodec: const StandardMessageCodec(),
       );
     } else {
       return UiKitView(
         viewType: isFloat?'bjy_float_player_view':'bjy_player_view',
         onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: <String, dynamic>{},
+        creationParams: <String, dynamic>{
+          "isFloat":isFloat
+        },
         creationParamsCodec: const StandardMessageCodec(),
       );
     }
