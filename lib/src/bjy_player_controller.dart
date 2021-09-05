@@ -8,9 +8,12 @@ const kMethodOnPlayingTimeChange = 'onPlayingTimeChange';
 const kMethodOnStatusChange = 'onStatusChange';
 
 class BjyPlayerController {
+  final bool isFloat;
   ObserverList<BjyPlayerListener>? _listeners = ObserverList<BjyPlayerListener>();
   MethodChannel? _channel;
   EventChannel? _eventChannel;
+
+  BjyPlayerController({this.isFloat = false});
 
   void initWithViewId(int viewId) {
     _channel = MethodChannel('plugin.bjyPlayer_$viewId');

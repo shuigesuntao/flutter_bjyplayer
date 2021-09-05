@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.baijiayun.videoplayer.listeners.OnPlayingTimeChangeListener;
 import com.baijiayun.videoplayer.player.PlayerStatus;
 import com.baijiayun.videoplayer.ui.event.UIEventKey;
 import com.baijiayun.videoplayer.ui.listener.IComponentEventListener;
+import com.sun.flutter_bjyplayer.sdk_player.component.FloatControllerComponent;
 import com.sun.flutter_bjyplayer.sdk_player.manager.BjyVideoPlayManager;
 import com.sun.flutter_bjyplayer.sdk_player.manager.VideoHelper;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
@@ -38,14 +40,32 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
     private final EventChannel mEventChannel;
     private final BjyPlayerEventSink mEventSink = new BjyPlayerEventSink();
     private Context mContext;
+    boolean isFloat = false;
     public BjyPlayerView(Context context, Map<String, Object> params, int viewId, FlutterPlugin.FlutterPluginBinding flutterPluginBinding) {
         super();
         mContext = context;
+        if(params.get("isFloat") != null){
+            isFloat = (Boolean) params.get("isFloat");
+        }
         mFlutterPluginBinding = flutterPluginBinding;
-        mContainerView = LayoutInflater.from(context).inflate(R.layout.layout_video, null, false);
+        mContainerView = LayoutInflater.from(context).inflate(isFloat ? R.layout.player_floating_view :R.layout.layout_video, null, false);
         mVideoView = mContainerView.findViewById(R.id.plv_video);
         mVideoView.initPlayer(BjyVideoPlayManager.getMediaPlayer(mFlutterPluginBinding.getApplicationContext()));
         VideoHelper.resetRenderTypeTexture(mVideoView);
+        if(isFloat){
+            try {
+                for (int i = 0; i < mVideoView.getComponentContainer().getChildCount(); i++) {
+                    mVideoView.getComponentContainer().getChildAt(i).setVisibility(View.INVISIBLE);
+                }
+                mVideoView.getComponentContainer().setVisibility(View.INVISIBLE);
+                FloatControllerComponent component = new FloatControllerComponent(mVideoView.getContext());
+                mVideoView.getComponentContainer().removeAllViews();
+                mVideoView.getComponentContainer().addComponent(UIEventKey.KEY_CONTROLLER_COMPONENT, component);
+
+            } catch (Exception ee) {
+                Log.e("Sun",ee.getMessage());
+            }
+        }
         mVideoView.setComponentEventListener(this);
         mVideoView.getPlayer().addOnPlayingTimeChangeListener(this);
         mVideoView.getPlayer().addOnPlayerStatusChangeListener(this);
@@ -145,11 +165,13 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
             mEventSink.success(eventData);
             mContext.startActivity(new Intent(mContext, FullScreenVideoPlayActivity.class));
         } else if (eventCode == UIEventKey.CUSTOM_CODE_REQUEST_BACK) {
+            final Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("isFloat", isFloat);
             final Map<String, Object> eventData = new HashMap<>();
             eventData.put("listener", "BjyPlayerListener");
             eventData.put("method", "onBack");
+            eventData.put("data", dataMap);
             mEventSink.success(eventData);
-            mEventSink.success("onBack");
 //            onBackPressedSupport();
         } else if (eventCode == UIEventKey.CUSTOM_CODE_MENU_DONE) {
             ComponentContainerHelper.getInstance().setRateBundle(bundle);
