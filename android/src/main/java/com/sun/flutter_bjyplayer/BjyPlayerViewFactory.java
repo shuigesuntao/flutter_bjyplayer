@@ -27,10 +27,12 @@ public class BjyPlayerViewFactory extends PlatformViewFactory {
         }
 
         if (args instanceof Map) {
-            BjyPlayerView playerView = new BjyPlayerView(mActivity, ((Map) args), viewId, mFlutterPluginBinding);
-            return playerView;
+            if((Boolean) ((Map)args).get("isFloat")){
+                return  new BjyFloatPlayerView(mActivity, ((Map) args), viewId, mFlutterPluginBinding);
+            }else{
+                return  new BjyPlayerView(mActivity, ((Map) args), viewId, mFlutterPluginBinding);
+            }
         }
-
         return null;
     }
 }
