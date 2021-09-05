@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 
 import com.baijiayun.BJYPlayerSDK;
+import com.lzf.easyfloat.EasyFloat;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -21,6 +22,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         mFlutterPluginBinding = flutterPluginBinding;
+        EasyFloat.init((Application) flutterPluginBinding.getApplicationContext(),false);
         new BJYPlayerSDK.Builder((Application) flutterPluginBinding.getApplicationContext())
                 //如果没有个性域名请注释
 //                .setCustomDomain("e37089826")
