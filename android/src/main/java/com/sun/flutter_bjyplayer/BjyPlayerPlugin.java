@@ -1,10 +1,12 @@
 package com.sun.flutter_bjyplayer;
 
 import android.app.Application;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
 import com.baijiayun.BJYPlayerSDK;
+import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -57,7 +59,15 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     }
 
     @Override
-    public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
+    public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+        if(call.method.equals("gotoFullScreenPage")){
+            String videoId = (String)call.argument("videoId");
+            String token = (String)call.argument("token");
+            Intent intent = new Intent(mActivityPluginBinding.getActivity(), FullScreenVideoPlayActivity.class);
+            intent.putExtra("token",token);
+            intent.putExtra("videoId",Long.parseLong(videoId));
+            mActivityPluginBinding.getActivity().startActivity(intent);
+        }
 
     }
 }
