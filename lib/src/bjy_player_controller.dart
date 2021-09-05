@@ -64,7 +64,7 @@ class BjyPlayerController {
   }
 
   void dispose() {
-    assert(_debugAssertNotDisposed());
+    // assert(_debugAssertNotDisposed());
     _listeners = null;
   }
 
