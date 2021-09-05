@@ -9,6 +9,8 @@ import com.baijiayun.BJYPlayerSDK;
 import com.lzf.easyfloat.EasyFloat;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 
+import java.util.Map;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -30,6 +32,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
                 .build();
         channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "bjy_player");
         channel.setMethodCallHandler(this);
+//        BjyDownloader(binding.getActivity(), ((Map) args), mFlutterPluginBinding);
     }
 
     @Override
@@ -43,6 +46,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         mActivityPluginBinding = binding;
         mFlutterPluginBinding.getPlatformViewRegistry().registerViewFactory("bjy_player_view", new BjyPlayerViewFactory(mFlutterPluginBinding, binding.getActivity()));
+
     }
 
     @Override
@@ -70,6 +74,5 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
             intent.putExtra("videoId",Long.parseLong(videoId));
             mActivityPluginBinding.getActivity().startActivity(intent);
         }
-
     }
 }

@@ -1,0 +1,146 @@
+PODS:
+  - AgoraRtcEngine_iOS (2.9.0.104)
+  - BJLiveBase (2.10.2):
+    - BJLiveBase/Base (= 2.10.2)
+  - BJLiveBase/Auth (2.10.2)
+  - BJLiveBase/Base (2.10.2):
+    - BJLiveBase/extobjc
+    - BJLiveBase/Foundation
+    - BJLiveBase/UIKit
+  - BJLiveBase/Download (2.10.2):
+    - BJLiveBase/Base
+    - BJLiveBase/Networking
+    - BJLiveBase/YYModel
+  - BJLiveBase/extobjc (2.10.2)
+  - BJLiveBase/Foundation (2.10.2):
+    - BJLiveBase/extobjc
+  - BJLiveBase/HUD (2.10.2):
+    - BJLiveBase/UIKit
+  - BJLiveBase/Networking (2.10.2):
+    - BJLiveBase/Base
+  - "BJLiveBase/Networking+BaijiaYun (2.10.2)":
+    - BJLiveBase/Base
+    - BJLiveBase/Networking
+  - BJLiveBase/PocketSocket/Client (2.10.2):
+    - BJLiveBase/PocketSocket/Core
+  - BJLiveBase/PocketSocket/Core (2.10.2)
+  - BJLiveBase/UIKit (2.10.2):
+    - BJLiveBase/extobjc
+    - BJLiveBase/Foundation
+  - BJLiveBase/WebImage/AFNetworking (2.10.2):
+    - BJLiveBase/Networking
+    - BJLiveBase/WebImage/BJLWebImage
+  - BJLiveBase/WebImage/BJLWebImage (2.10.2)
+  - BJLiveBase/YYModel (2.10.2)
+  - BJLiveCore (2.10.3):
+    - BJLiveBase (~> 2.10.2)
+    - BJLiveBase/Auth (~> 2.10.2)
+    - BJLiveBase/Base (~> 2.10.2)
+    - BJLiveBase/Networking (~> 2.10.2)
+    - "BJLiveBase/Networking+BaijiaYun (~> 2.10.2)"
+    - BJLiveBase/PocketSocket/Client (~> 2.10.2)
+    - BJLiveBase/WebImage/AFNetworking (~> 2.10.2)
+    - BJLiveBase/WebImage/BJLWebImage (~> 2.10.2)
+    - BJLiveBase/YYModel (~> 2.10.2)
+    - BJLiveCore/static (= 2.10.3)
+  - BJLiveCore/BJHLMediaPlayer (2.10.3):
+    - BJLiveBase (~> 2.10.2)
+    - BJLiveBase/Auth (~> 2.10.2)
+    - BJLiveBase/Base (~> 2.10.2)
+    - BJLiveBase/Networking (~> 2.10.2)
+    - "BJLiveBase/Networking+BaijiaYun (~> 2.10.2)"
+    - BJLiveBase/PocketSocket/Client (~> 2.10.2)
+    - BJLiveBase/WebImage/AFNetworking (~> 2.10.2)
+    - BJLiveBase/WebImage/BJLWebImage (~> 2.10.2)
+    - BJLiveBase/YYModel (~> 2.10.2)
+  - BJLiveCore/core (2.10.3):
+    - BJLiveBase (~> 2.10.2)
+    - BJLiveBase/Auth (~> 2.10.2)
+    - BJLiveBase/Base (~> 2.10.2)
+    - BJLiveBase/Networking (~> 2.10.2)
+    - "BJLiveBase/Networking+BaijiaYun (~> 2.10.2)"
+    - BJLiveBase/PocketSocket/Client (~> 2.10.2)
+    - BJLiveBase/WebImage/AFNetworking (~> 2.10.2)
+    - BJLiveBase/WebImage/BJLWebImage (~> 2.10.2)
+    - BJLiveBase/YYModel (~> 2.10.2)
+    - BJLiveCore/BJHLMediaPlayer
+    - BJYRTCEngine/BJYIJKMediaPlayer (~> 0.7.12)
+  - BJLiveCore/static (2.10.3):
+    - BJLiveBase (~> 2.10.2)
+    - BJLiveBase/Auth (~> 2.10.2)
+    - BJLiveBase/Base (~> 2.10.2)
+    - BJLiveBase/Networking (~> 2.10.2)
+    - "BJLiveBase/Networking+BaijiaYun (~> 2.10.2)"
+    - BJLiveBase/PocketSocket/Client (~> 2.10.2)
+    - BJLiveBase/WebImage/AFNetworking (~> 2.10.2)
+    - BJLiveBase/WebImage/BJLWebImage (~> 2.10.2)
+    - BJLiveBase/YYModel (~> 2.10.2)
+    - BJLiveCore/core
+    - BJYRTCEngine/static (~> 0.7.12)
+  - BJVideoPlayerCore (2.10.1):
+    - BJVideoPlayerCore/static (= 2.10.1)
+  - BJVideoPlayerCore/core (2.10.1):
+    - BJLiveBase/Download (~> 2.10.0)
+  - BJVideoPlayerCore/static (2.10.1):
+    - BJLiveCore (~> 2.10.2)
+    - BJVideoPlayerCore/core
+  - BJVideoPlayerUI (2.10.1):
+    - BJLiveBase/HUD (~> 2.10.0)
+    - BJVideoPlayerUI/static (= 2.10.1)
+  - BJVideoPlayerUI/static (2.10.1):
+    - BJLiveBase/HUD (~> 2.10.0)
+    - BJVideoPlayerCore (~> 2.10.1)
+    - BJVideoPlayerUI/ui
+  - BJVideoPlayerUI/ui (2.10.1):
+    - BJLiveBase/HUD (~> 2.10.0)
+  - BJYRTCEngine/agora (0.7.12):
+    - AgoraRtcEngine_iOS (= 2.9.0.104)
+  - BJYRTCEngine/BJYIJKMediaPlayer (0.7.12)
+  - BJYRTCEngine/nothirdparty (0.7.12)
+  - BJYRTCEngine/static (0.7.12):
+    - BJYRTCEngine/agora
+    - BJYRTCEngine/nothirdparty
+    - BJYRTCEngine/tencent
+  - BJYRTCEngine/tencent (0.7.12):
+    - TXLiteAVSDK_TRTC (= 7.2.8956)
+  - Flutter (1.0.0)
+  - flutter_bjyplayer (0.0.1):
+    - BJVideoPlayerUI
+    - Flutter
+  - TXLiteAVSDK_TRTC (7.2.8956)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_bjyplayer (from `.symlinks/plugins/flutter_bjyplayer/ios`)
+
+SPEC REPOS:
+  https://git.baijiashilian.com/open-ios/specs.git:
+    - BJLiveBase
+    - BJLiveCore
+    - BJVideoPlayerCore
+    - BJVideoPlayerUI
+    - BJYRTCEngine
+  https://github.com/CocoaPods/Specs.git:
+    - AgoraRtcEngine_iOS
+    - TXLiteAVSDK_TRTC
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_bjyplayer:
+    :path: ".symlinks/plugins/flutter_bjyplayer/ios"
+
+SPEC CHECKSUMS:
+  AgoraRtcEngine_iOS: 7cba8f57c9ac39c1a17df2080cde6cea294229b2
+  BJLiveBase: c83203265d34e2b35ee2bf8e179f6c645737dce4
+  BJLiveCore: 4f321bd76b59304e1604df9cd4133bbcf98ff83e
+  BJVideoPlayerCore: 35dc34dd42a70bd11b3012c07026174cd4436ff6
+  BJVideoPlayerUI: e04094ca4c5b3e5bcfdddb1daef2e8f3340c6bcf
+  BJYRTCEngine: 42b1dce8c0c4a60fa73fc963004e958014a14fdc
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_bjyplayer: 5d13735588bfb7aa04a989b161b507063484061c
+  TXLiteAVSDK_TRTC: f62d4c91bcd3fdbd4b06724dd87280a2035e2b7c
+
+PODFILE CHECKSUM: f20e6e05e5fd3653187beb076bb689ae20ab314f
+
+COCOAPODS: 1.11.0
