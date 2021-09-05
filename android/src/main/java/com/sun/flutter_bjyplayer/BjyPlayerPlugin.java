@@ -41,6 +41,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         mActivityPluginBinding = binding;
         mFlutterPluginBinding.getPlatformViewRegistry().registerViewFactory("bjy_player_view", new BjyPlayerViewFactory(mFlutterPluginBinding, binding.getActivity()));
+        mFlutterPluginBinding.getPlatformViewRegistry().registerViewFactory("bjy_float_player_view", new BjyPlayerViewFactory(mFlutterPluginBinding, binding.getActivity()));
     }
 
     @Override

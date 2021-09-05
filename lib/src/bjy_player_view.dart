@@ -2,8 +2,9 @@ part of flutter_bjyplayer;
 
 class BjyPlayerView extends StatelessWidget{
   final BjyPlayerController controller;
+  final bool isFloat;
 
-  const BjyPlayerView({Key? key,required this.controller}) : super(key: key);
+  const BjyPlayerView({Key? key,required this.controller,this.isFloat = false}) : super(key: key);
 
   void _onPlatformViewCreated(viewId) {
     controller.initWithViewId(viewId);
@@ -17,20 +18,16 @@ class BjyPlayerView extends StatelessWidget{
   Widget getPlatformView() {
     if (Platform.isAndroid) {
       return AndroidView(
-        viewType: 'bjy_player_view',
+        viewType: isFloat?'bjy_float_player_view':'bjy_player_view',
         onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: <String, dynamic>{
-          "isFloat":controller.isFloat
-        },
+        creationParams: <String, dynamic>{},
         creationParamsCodec: const StandardMessageCodec(),
       );
     } else {
       return UiKitView(
-        viewType: 'bjy_player_view',
+        viewType: isFloat?'bjy_float_player_view':'bjy_player_view',
         onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: <String, dynamic>{
-          "isFloat":controller.isFloat
-        },
+        creationParams: <String, dynamic>{},
         creationParamsCodec: const StandardMessageCodec(),
       );
     }
