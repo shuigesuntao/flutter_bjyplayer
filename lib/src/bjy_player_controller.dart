@@ -153,8 +153,8 @@ class BjyPlayerController {
     _channel!.invokeMethod('setupOnlineVideoWithId', arguments);
   }
 
-  void tryOpenFloatViewPlay(String videoId,String token){
-    _channel!.invokeMethod('tryOpenFloatViewPlay', {});
+  Future<void> tryOpenFloatViewPlay() async{
+    await _channel!.invokeMethod('tryOpenFloatViewPlay', {});
   }
 
 
