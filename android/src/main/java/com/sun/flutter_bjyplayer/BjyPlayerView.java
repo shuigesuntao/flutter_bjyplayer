@@ -171,7 +171,7 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
 
     @Override
     public void dispose() {
-        BjyVideoPlayManager.releaseMedia();
+//        BjyVideoPlayManager.releaseMedia();
     }
 
 
