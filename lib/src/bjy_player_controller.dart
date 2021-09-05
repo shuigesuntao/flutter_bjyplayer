@@ -28,7 +28,7 @@ class BjyPlayerController {
 
       switch (listener) {
         case 'BjyPlayerListener':
-          if(!await isReleased()){
+          if(!await isReleased() && _listeners != null){
             notifyListeners(method, event['data']);
           }
           break;
@@ -64,7 +64,7 @@ class BjyPlayerController {
   }
 
   void dispose() {
-    // assert(_debugAssertNotDisposed());
+    assert(_debugAssertNotDisposed());
     _listeners = null;
   }
 
