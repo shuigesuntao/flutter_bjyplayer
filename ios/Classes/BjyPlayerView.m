@@ -45,21 +45,21 @@
     return self;
 }
 
-- (UIView*)view {
-    return playerFatherView;
-}
+//- (UIView*)view {
+//    return playerFatherView;
+//}
 
-- (FlutterError*)onListenWithArguments:(id)arguments sink:(FlutterEventSink)eventSink {
-    eventSink.setDelegate(sink);
-    
-    return nil;
-}
-
-- (FlutterError*)onCancelWithArguments:(id)arguments {
-    eventSink.setDelegate(nil);
-   
-    return nil;
-}
+//- (FlutterError*)onListenWithArguments:(id)arguments sink:(FlutterEventSink)eventSink {
+//    eventSink.setDelegate(sink);
+//
+//    return nil;
+//}
+//
+//- (FlutterError*)onCancelWithArguments:(id)arguments {
+//    eventSink.setDelegate(nil);
+//
+//    return nil;
+//}
 
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result{
