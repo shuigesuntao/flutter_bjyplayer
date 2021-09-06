@@ -117,30 +117,30 @@
 
 //onBack
 
-/// 播放状态发生变化
-- (void)onStatusChange:(NSString) playState {
-    NSDictionary<NSString *, id> *eventData = @{
-        @"listener": @"BjyPlayerListener",
-        @"method": @"onStatusChange",
-        @"data": @{
-                @"playerStatus": [NSString playState],
-        },
-    };
-    self->_eventSink(eventData);
-}
-
-
-/// 播放进度发生变化
-- (void)onPlayingTimeChange:(int) current duration:(int) duration {
-    NSDictionary<NSString *, id> *eventData = @{
-        @"listener": @"BjyPlayerListener",
-        @"method": @"onPlayingTimeChange",
-        @"data": @{
-                @"cur": [NSNumber numberWithInt:current],
-                @"dur": [NSNumber numberWithInt:duration],
-        },
-    };
-    self->_eventSink(eventData);
-}
+///// 播放状态发生变化
+//- (void)onStatusChange:(NSString) playState {
+//    NSDictionary<NSString *, id> *eventData = @{
+//        @"listener": @"BjyPlayerListener",
+//        @"method": @"onStatusChange",
+//        @"data": @{
+//                @"playerStatus": [NSString playState],
+//        },
+//    };
+//    self->_eventSink(eventData);
+//}
+//
+//
+///// 播放进度发生变化
+//- (void)onPlayingTimeChange:(int) current duration:(int) duration {
+//    NSDictionary<NSString *, id> *eventData = @{
+//        @"listener": @"BjyPlayerListener",
+//        @"method": @"onPlayingTimeChange",
+//        @"data": @{
+//                @"cur": [NSNumber numberWithInt:current],
+//                @"dur": [NSNumber numberWithInt:duration],
+//        },
+//    };
+//    self->_eventSink(eventData);
+//}
 
 
