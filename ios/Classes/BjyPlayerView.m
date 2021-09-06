@@ -106,7 +106,7 @@
         // 根据videoId token 播放视频
         NSString *videoId = args[@"videoId"];
         NSString *token = args[@"token"];
-        [self.playerUIVC playWithVid:videoId token:token]
+        [self.playerUIVC playWithVid:videoId token:token];
         result(nil);
     }else {
         result(FlutterMethodNotImplemented);
@@ -143,4 +143,4 @@
 //    self->_eventSink(eventData);
 //}
 
-
+@end
