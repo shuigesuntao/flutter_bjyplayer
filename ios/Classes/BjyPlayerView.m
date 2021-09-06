@@ -9,7 +9,7 @@
 #import "BjyPlayerEventSink.h"
 #import <BJVideoPlayerUI/BJVideoPlayerUI.h>
 
-@interface BjyPlayerView ()<SuperPlayerDelegate>
+@interface BjyPlayerView ()
 
 @property (nonatomic, strong) BJPUViewController *playerUIVC;
 @property (nonatomic, strong) UIView *playerFatherView;

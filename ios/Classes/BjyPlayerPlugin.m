@@ -20,7 +20,7 @@
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"bjy_player"
             binaryMessenger:[registrar messenger]];
-  BjyPlayerPlugin* instance = [[SuperPlayerPlugin alloc] initWithRegistrar:registrar];
+  BjyPlayerPlugin* instance = [[BjyPlayerPlugin alloc] initWithRegistrar:registrar];
   [registrar addMethodCallDelegate:instance channel:channel];
   [registrar registerViewFactory:[[BjyPlayerViewFactory alloc] initWithRegistrar:registrar] withId:@"bjy_player_view"];
 }
@@ -37,14 +37,14 @@
 
 #pragma mark - <BJVRequestTokenDelegate>
 
-- (void)requestTokenWithVideoID:(NSString *)videoID
-                     completion:(void (^)(NSString * _Nullable token, NSError * _Nullable error))completion {
-    NSString *key = videoID ?: @"";
-    
-    completion(BJLDownloadVideoTokens()[key], nil);
-    
-    // [self requestTokenWithKey:key completion:completion];
-}
+//- (void)requestTokenWithVideoID:(NSString *)videoID
+//                     completion:(void (^)(NSString * _Nullable token, NSError * _Nullable error))completion {
+//    NSString *key = videoID ?: @"";
+//
+//    completion(BJLDownloadVideoTokens()[key], nil);
+//
+//    // [self requestTokenWithKey:key completion:completion];
+//}
 
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
