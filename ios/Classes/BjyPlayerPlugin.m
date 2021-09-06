@@ -20,7 +20,7 @@
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"bjy_player"
             binaryMessenger:[registrar messenger]];
-  SuperPlayerPlugin* instance = [[SuperPlayerPlugin alloc] initWithRegistrar:registrar];
+  BjyPlayerPlugin* instance = [[SuperPlayerPlugin alloc] initWithRegistrar:registrar];
   [registrar addMethodCallDelegate:instance channel:channel];
   [registrar registerViewFactory:[[BjyPlayerViewFactory alloc] initWithRegistrar:registrar] withId:@"bjy_player_view"];
 }
