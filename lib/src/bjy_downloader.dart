@@ -1,95 +1,38 @@
 part of flutter_bjyplayer;
 
 class BjyDownloader{
-
-  ObserverList<BjyDownLoaderListener>? _listeners = ObserverList<BjyDownLoaderListener>();
+  static final BjyDownloader _instance = BjyDownloader._internal();
   MethodChannel? _channel;
-  EventChannel? _eventChannel;
-
-  BjyDownloader(){
-    _channel = MethodChannel('plugin.bjy_downloader');
-    _eventChannel = EventChannel('plugin.bjy_downloader_event');
-    _eventChannel!.receiveBroadcastStream().listen(_onEvent);
+  //提供了一个工厂方法来获取该类的实例
+  factory BjyDownloader(){
+    return _instance;
   }
 
-  _onEvent(dynamic event) async{
-    if(event is Map){
-      String listener = '${event['listener']}';
-      String method = '${event['method']}';
-
-      switch (listener) {
-        case 'BjyDownLoaderListener':
-          notifyListeners(method, event['data']);
-          break;
-      }
-    }
+  // 通过私有方法_internal()隐藏了构造方法，防止被误创建
+  BjyDownloader._internal(){
+    // 初始化
+    init();
   }
 
-
-  bool _debugAssertNotDisposed() {
-    assert(() {
-      if (_listeners == null) {
-        throw FlutterError('A $runtimeType was used after being disposed.\n'
-            'Once you have called dispose() on a $runtimeType, it can no longer be used.');
-      }
-      return true;
-    }());
-    return true;
+  init(){
+    _channel = MethodChannel('bjy_player');
   }
 
-  bool get hasListeners {
-    assert(_debugAssertNotDisposed());
-    return _listeners!.isNotEmpty;
-  }
-
-  void addListener(BjyDownLoaderListener listener) {
-    assert(_debugAssertNotDisposed());
-    _listeners!.add(listener);
-  }
-
-  void removeListener(BjyDownLoaderListener listener) {
-    assert(_debugAssertNotDisposed());
-    _listeners!.remove(listener);
-  }
-
-  void dispose() {
-    assert(_debugAssertNotDisposed());
-    _listeners = null;
-  }
-
-  void notifyListeners(String? method, [dynamic data]) {
-    assert(_debugAssertNotDisposed());
-    if (_listeners != null) {
-      final List<BjyDownLoaderListener> localListeners = List<BjyDownLoaderListener>.from(_listeners!);
-      for (final BjyDownLoaderListener listener in localListeners) {
-        try {
-          if (_listeners!.contains(listener)) {
-            switch (method) {
-              case kMethodOnToggleScreen:
-                // listener.onToggleScreen();
-                break;
-              case kMethodOnBack:
-                // listener.onBack();
-                break;
-              case kMethodOnStatusChange:
-                // listener.onStatusChange(data['playerStatus']);
-                break;
-              case kMethodOnPlayingTimeChange:
-                // listener.onPlayingTimeChange(
-                //   data['cur'],
-                //   data['dur'],
-                // );
-                break;
-            }
-          }
-        } catch (exception) {}
-      }
-    }
-  }
 
   void download (String jsonInfo){
     var info = json.decode(jsonInfo);
     _channel!.invokeMethod('download', info);
+  }
+
+  Future<Map<String,dynamic>?> getAllDownloadInfo (String courseId) async{
+    final Map<String, dynamic> arguments = {
+      'courseId': courseId,
+    };
+    final String? resultData = await _channel!.invokeMethod('getAllDownloadInfo', arguments);
+    if(resultData != null){
+      return json.decode(resultData);
+    }
+    return null;
   }
 
 
