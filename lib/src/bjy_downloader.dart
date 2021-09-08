@@ -24,7 +24,7 @@ class BjyDownloader{
     _channel!.invokeMethod('download', info);
   }
 
-  Future<Map<String,dynamic>?> getAllDownloadInfo (String courseId) async{
+  Future<List<Map<String,dynamic>>?> getAllDownloadInfo (String courseId) async{
     final Map<String, dynamic> arguments = {
       'courseId': courseId,
     };
