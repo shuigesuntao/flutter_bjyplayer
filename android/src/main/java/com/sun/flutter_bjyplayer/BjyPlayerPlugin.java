@@ -2,6 +2,8 @@ package com.sun.flutter_bjyplayer;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.Environment;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
@@ -10,11 +12,13 @@ import com.baijiayun.BJYPlayerSDK;
 import com.google.gson.Gson;
 import com.lzf.easyfloat.EasyFloat;
 import com.nj.baijiayun.downloader.DownloadManager;
+import com.nj.baijiayun.downloader.config.DownConfig;
 import com.nj.baijiayun.downloader.realmbean.DownloadItem;
 import com.nj.baijiayun.downloader.request.DownloadRequest;
 import com.sun.flutter_bjyplayer.sdk_player.manager.BjyVideoPlayManager;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +36,13 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         mFlutterPluginBinding = flutterPluginBinding;
+
         EasyFloat.init((Application) flutterPluginBinding.getApplicationContext(),false);
+
+        DownConfig.Builder builder = new DownConfig
+                .Builder(mFlutterPluginBinding.getApplicationContext());
+        DownConfig downConfig = builder.setFilePath(getVideoDownLoadPath()).builder();
+        DownloadManager.init(downConfig);
         new BJYPlayerSDK.Builder((Application) flutterPluginBinding.getApplicationContext())
                 //如果没有个性域名请注释
 //                .setCustomDomain("e37089826")
@@ -119,5 +129,19 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
             });
 //            DownloadManager.getPlayBackDownloadTask(downloadItem).getVideoDownloadInfo()
         }
+    }
+
+    public String getVideoDownLoadPath() {
+        String mCacheDirPath = null;
+        File cacheDir = mFlutterPluginBinding.getApplicationContext().getExternalFilesDir("FileDownload");
+        if (null != cacheDir) {
+            mCacheDirPath = cacheDir.getAbsolutePath();
+        }
+        if (TextUtils.isEmpty(mCacheDirPath)) {
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                mCacheDirPath = Environment.getExternalStorageDirectory().getPath() + "/Android/data/com.baijiayun.dainixue/files/";
+            }
+        }
+        return mCacheDirPath;
     }
 }
