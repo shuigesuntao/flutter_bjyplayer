@@ -15,6 +15,7 @@ import com.nj.baijiayun.downloader.DownloadManager;
 import com.nj.baijiayun.downloader.config.DownConfig;
 import com.nj.baijiayun.downloader.realmbean.DownloadItem;
 import com.nj.baijiayun.downloader.request.DownloadRequest;
+import com.nj.baijiayun.logger.log.Logger;
 import com.sun.flutter_bjyplayer.sdk_player.manager.BjyVideoPlayManager;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 
@@ -36,7 +37,10 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         mFlutterPluginBinding = flutterPluginBinding;
-
+        Logger.setEnable(true);
+        Logger.setPriority(Logger.MIN_LOG_PRIORITY);
+        Logger.setTag("Sun");
+        Logger.init(flutterPluginBinding.getApplicationContext());
         EasyFloat.init((Application) flutterPluginBinding.getApplicationContext(),false);
 
         DownConfig.Builder builder = new DownConfig
