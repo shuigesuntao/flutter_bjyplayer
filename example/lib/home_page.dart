@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bjyplayer/flutter_bjyplayer.dart';
 import 'package:flutter_bjyplayer_example/player_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +10,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    BjyDownloader().getAllDownloadInfo("2");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

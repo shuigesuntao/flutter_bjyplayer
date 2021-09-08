@@ -129,10 +129,12 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
             downloadRequest.start();
         }else if(call.method.equals("getAllDownloadInfo")){
             String courseId = call.argument("courseId");
-            DownloadManager.getAllDownloadInfo((LifecycleOwner) mActivityPluginBinding.getActivity(),courseId).getAsFlow().subscribe((Consumer<List<DownloadItem>>) downloadItems -> {
-                Log.d("Sun",new Gson().toJson(downloadItems));
-                result.success(new Gson().toJson(downloadItems));
-            });
+            List<DownloadItem> items = DownloadManager.getAllDownloadInfo((LifecycleOwner) mActivityPluginBinding.getActivity(),courseId).getResults();
+            Log.d("Sun",new Gson().toJson(items));
+//            DownloadManager.getAllDownloadInfo((LifecycleOwner) mActivityPluginBinding.getActivity(),courseId).getAsFlow().subscribe((Consumer<List<DownloadItem>>) downloadItems -> {
+//                Log.d("Sun",new Gson().toJson(downloadItems));
+////                result.success(new Gson().toJson(downloadItems));
+//            });
 //            DownloadManager.getPlayBackDownloadTask(downloadItem).getVideoDownloadInfo()
         }
     }
