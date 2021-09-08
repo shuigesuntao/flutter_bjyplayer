@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    BjyDownloader().getAllDownloadInfo("2");
+    // BjyDownloader().getAllDownloadInfo("2");
   }
   @override
   Widget build(BuildContext context) {
