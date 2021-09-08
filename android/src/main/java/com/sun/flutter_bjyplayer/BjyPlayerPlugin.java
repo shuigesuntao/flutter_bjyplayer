@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
@@ -129,6 +130,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
         }else if(call.method.equals("getAllDownloadInfo")){
             String courseId = call.argument("courseId");
             DownloadManager.getAllDownloadInfo((LifecycleOwner) mActivityPluginBinding.getActivity(),courseId).getAsFlow().subscribe((Consumer<List<DownloadItem>>) downloadItems -> {
+                Log.d("Sun",new Gson().toJson(downloadItems));
                 result.success(new Gson().toJson(downloadItems));
             });
 //            DownloadManager.getPlayBackDownloadTask(downloadItem).getVideoDownloadInfo()
