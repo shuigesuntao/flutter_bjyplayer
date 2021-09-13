@@ -21,20 +21,24 @@ import com.sun.flutter_bjyplayer.sdk_player.manager.BjyVideoPlayManager;
 import com.sun.flutter_bjyplayer.sdk_player.ui.FullScreenVideoPlayActivity;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.reactivex.functions.Consumer;
 
 public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware {
     private MethodChannel channel;
+    private EventChannel mEventChannel;
     private FlutterPluginBinding mFlutterPluginBinding;
     private ActivityPluginBinding mActivityPluginBinding;
+    private final BjyPlayerEventSink mEventSink = new BjyPlayerEventSink();
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         mFlutterPluginBinding = flutterPluginBinding;
@@ -55,7 +59,18 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
                 .build();
         channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "bjy_player");
         channel.setMethodCallHandler(this);
-//        BjyDownloader(binding.getActivity(), ((Map) args), mFlutterPluginBinding);
+        mEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "bjy_player_event");
+        mEventChannel.setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object o, EventChannel.EventSink eventSink) {
+                mEventSink.setEventSinkProxy(eventSink);
+            }
+
+            @Override
+            public void onCancel(Object o) {
+                mEventSink.setEventSinkProxy(null);
+            }
+        });
     }
 
     @Override
@@ -136,10 +151,13 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
                     if (downloadItems.get(i) == null) {
                         continue;
                     }
-                    Log.d("Sun",downloadItems.get(i).toString());
+                    DownloadItem item = downloadItems.get(i);
+                    Map data = new HashMap();
+                    data.put("itemId",item.getItemId());
+                    data.put("downloadStatus",item.getDownloadStatus());
+                    data.put("filePath",item.getFilePath());
+                    mEventSink.success(data);
                 }
-                Logger.d("registerDownLoadListener" + downloadItems.size());
-
             });
 //            DownloadManager.getAllDownloadInfo((LifecycleOwner) mActivityPluginBinding.getActivity(),courseId).getAsFlow().subscribe((Consumer<List<DownloadItem>>) downloadItems -> {
 //                Log.d("Sun",new Gson().toJson(downloadItems));

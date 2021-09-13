@@ -3,6 +3,9 @@ part of flutter_bjyplayer;
 class BjyDownloader{
   static final BjyDownloader _instance = BjyDownloader._internal();
   MethodChannel? _channel;
+  StreamSubscription? _eventSubscription;
+  final StreamController<String> _eventStreamController = StreamController.broadcast();
+  Stream<String> get onDownloadEventBroadcast => _eventStreamController.stream;
   //提供了一个工厂方法来获取该类的实例
   factory BjyDownloader(){
     return _instance;
@@ -16,6 +19,19 @@ class BjyDownloader{
 
   init(){
     _channel = MethodChannel('bjy_player');
+    _eventSubscription =
+        EventChannel("bjy_player_event")
+            .receiveBroadcastStream()
+            .listen(_eventHandler, onError: _errorHandler);
+  }
+
+  _eventHandler(event) {
+    if(event == null) return;
+    _eventStreamController.add(event);
+  }
+
+  _errorHandler(error) {
+    //debugPrint("= error = ${error.toString()}");
   }
 
 
