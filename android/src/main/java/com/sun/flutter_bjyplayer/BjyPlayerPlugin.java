@@ -152,7 +152,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
                         continue;
                     }
                     DownloadItem item = downloadItems.get(i);
-                    Map data = new HashMap();
+                    Map data = new HashMap<String,Object>();
                     data.put("itemId",item.getItemId());
                     data.put("downloadStatus",item.getDownloadStatus());
                     data.put("filePath",item.getFilePath());
