@@ -2,6 +2,7 @@
 library flutter_bjyplayer;
 
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';

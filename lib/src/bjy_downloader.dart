@@ -4,8 +4,8 @@ class BjyDownloader{
   static final BjyDownloader _instance = BjyDownloader._internal();
   MethodChannel? _channel;
   StreamSubscription? _eventSubscription;
-  final StreamController<Map<String?, Object?>> _eventStreamController = StreamController.broadcast();
-  Stream<Map<String?, Object?>> get onDownloadEventBroadcast => _eventStreamController.stream;
+  final StreamController<LinkedHashMap<Object?, Object?>> _eventStreamController = StreamController.broadcast();
+  Stream<LinkedHashMap<Object?, Object?>> get onDownloadEventBroadcast => _eventStreamController.stream;
   //提供了一个工厂方法来获取该类的实例
   factory BjyDownloader(){
     return _instance;
