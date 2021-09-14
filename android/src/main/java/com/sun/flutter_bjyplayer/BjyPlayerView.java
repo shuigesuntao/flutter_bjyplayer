@@ -135,6 +135,14 @@ public class BjyPlayerView implements PlatformView, MethodChannel.MethodCallHand
                     mVideoView.getPlayer().setupOnlineVideoWithId(Long.parseLong(videoId),token);
                 }
                 break;
+            case "setupVideoWithPath":
+                String path = "";
+                if (call.hasArgument("path"))
+                    path = call.argument("path");
+                if(!TextUtils.isEmpty(path)){
+                    mVideoView.getPlayer().setupLocalVideoWithFilePath(path);
+                }
+                break;
         }
     }
     public interface ActionCallBack {

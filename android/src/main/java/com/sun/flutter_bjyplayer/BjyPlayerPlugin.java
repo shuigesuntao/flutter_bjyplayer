@@ -107,9 +107,11 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
         if(call.method.equals("gotoFullScreenPage")){
             String videoId = (String)call.argument("videoId");
             String token = (String)call.argument("token");
+            String path = (String)call.argument("path");
             Intent intent = new Intent(mActivityPluginBinding.getActivity(), FullScreenVideoPlayActivity.class);
             intent.putExtra("token",token);
             intent.putExtra("videoId",Long.parseLong(videoId));
+            intent.putExtra("videoPath",path);
             mActivityPluginBinding.getActivity().startActivity(intent);
         }else if(call.method.equals("download")){
             String type = call.argument("type");
