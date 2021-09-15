@@ -7,7 +7,7 @@
 
 #import "BjyPlayerPlugin.h"
 #import "BjyPlayerViewFactory.h"
-#import <BJVideoPlayerUI/BJVideoPlayerUI.h>
+#import <BJVideoPlayerUI.h>
 
 @interface BjyPlayerPlugin ()
 

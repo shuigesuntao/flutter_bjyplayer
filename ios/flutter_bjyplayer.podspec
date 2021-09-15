@@ -16,9 +16,20 @@ A new flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'BaijiaYun/BJVideoPlayerUI'
+
   s.platform = :ios, '9.0'
 
+  s.default_subspecs = ['static.source']
+
+  s.subspec 'static.source' do |ss|
+    ss.source_files = 'BJVideoPlayerUI/Classes/**/*'
+    ss.dependency 'BaijiaYun/BJVideoPlayerCore', '~> 2.11.8'
+    ss.resource_bundles = {
+     'BJVideoPlayerUI' => ['BJVideoPlayerUI/Assets/*.png']
+    }
+  end
+
   # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
+  s.static_framework = true
 end

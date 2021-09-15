@@ -7,7 +7,7 @@
 
 #import "BjyPlayerView.h"
 #import "BjyPlayerEventSink.h"
-#import <BJVideoPlayerUI/BJVideoPlayerUI.h>
+#import <BJVideoPlayerUI.h>
 
 @interface BjyPlayerView ()
 

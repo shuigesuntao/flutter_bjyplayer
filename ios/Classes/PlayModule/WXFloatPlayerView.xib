@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="WXFloatPlayerView">
+            <rect key="frame" x="0.0" y="0.0" width="170" height="120"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:10-30:20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iM1-Ce-ukI">
+                    <rect key="frame" x="27" y="101" width="140" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="140" id="ZcL-4z-OXg"/>
+                        <constraint firstAttribute="height" constant="16" id="wia-ZZ-CiO"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6dK-gl-8Af">
+                    <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="NgJ-Cw-KRw"/>
+                        <constraint firstAttribute="width" constant="28" id="dEX-5J-Yqj"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <state key="normal" image="float_close">
+                        <color key="titleColor" red="0.90196078430000004" green="0.18039215689999999" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="closeClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="3m4-8Y-jJl"/>
+                    </connections>
+                </button>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="CCb-UY-nhe">
+                    <rect key="frame" x="0.0" y="117" width="170" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="GSb-kX-nbE"/>
+                    </constraints>
+                    <color key="progressTintColor" red="0.98823529409999999" green="0.33725490200000002" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
+                </progressView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wko-7h-xLT">
+                    <rect key="frame" x="90" y="92" width="15" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15" id="7sM-AU-xlC"/>
+                        <constraint firstAttribute="height" constant="15" id="Gqn-NW-koU"/>
+                    </constraints>
+                    <state key="normal" image="float_open"/>
+                    <connections>
+                        <action selector="fullScreenAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="e3r-5i-8qB"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EiI-lb-M4w">
+                    <rect key="frame" x="65" y="92" width="15" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="sTk-p2-HxR"/>
+                        <constraint firstAttribute="width" constant="15" id="vWe-rX-jXz"/>
+                    </constraints>
+                    <state key="normal" image="float_pause"/>
+                    <connections>
+                        <action selector="playAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="dpu-pB-RlM"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="CCb-UY-nhe" secondAttribute="trailing" id="Mu1-FT-gQ8"/>
+                <constraint firstItem="CCb-UY-nhe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VOf-vX-Gyu"/>
+                <constraint firstItem="CCb-UY-nhe" firstAttribute="top" secondItem="EiI-lb-M4w" secondAttribute="bottom" constant="10" id="Woa-0C-6vg"/>
+                <constraint firstAttribute="trailing" secondItem="iM1-Ce-ukI" secondAttribute="trailing" constant="3" id="cFV-DD-8Fy"/>
+                <constraint firstAttribute="bottom" secondItem="iM1-Ce-ukI" secondAttribute="bottom" constant="3" id="gGz-4Z-aem"/>
+                <constraint firstItem="EiI-lb-M4w" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-12.5" id="nX4-Ic-Qeb"/>
+                <constraint firstItem="CCb-UY-nhe" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-1" id="p7k-m5-PSJ"/>
+                <constraint firstItem="wko-7h-xLT" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="12.5" id="q8T-vw-hSl"/>
+                <constraint firstItem="6dK-gl-8Af" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rc8-8Q-moF"/>
+                <constraint firstItem="6dK-gl-8Af" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v7L-FE-uWS"/>
+                <constraint firstItem="CCb-UY-nhe" firstAttribute="top" secondItem="wko-7h-xLT" secondAttribute="bottom" constant="10" id="yqY-Bn-m6i"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="closeButton" destination="6dK-gl-8Af" id="fPi-pg-x6V"/>
+                <outlet property="durationLabel" destination="iM1-Ce-ukI" id="mca-6p-teo"/>
+                <outlet property="fullButton" destination="wko-7h-xLT" id="SRD-Mm-4l5"/>
+                <outlet property="playButton" destination="EiI-lb-M4w" id="WFg-T3-jxm"/>
+                <outlet property="progressView" destination="CCb-UY-nhe" id="Na6-aH-qdd"/>
+            </connections>
+            <point key="canvasLocation" x="137.59999999999999" y="108.84557721139431"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="float_close" width="9" height="9"/>
+        <image name="float_open" width="11" height="11"/>
+        <image name="float_pause" width="10" height="10"/>
+    </resources>
+</document>
