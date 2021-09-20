@@ -7,7 +7,7 @@
 //
 
 #import "WXFloatMediaView.h"
-#import <BJVideoPlayerUI/BJVideoPlayerUI.h>
+#import <BJVideoPlayerUI.h>
 #import "BJPUViewController+protected.h"
 
 @interface WXFloatMediaView ()<UIGestureRecognizerDelegate>

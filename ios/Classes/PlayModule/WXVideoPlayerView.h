@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import  "BJVideoPlayerCore.h"
+
 #import "BJPUVideoOptions.h"
 #import "Helper.h"
 typedef NS_ENUM(NSUInteger, BJYPlayerViewLayoutType) {

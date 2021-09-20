@@ -5,7 +5,7 @@
 //  Created by mac on 2019/6/28.
 //  Copyright © 2019年 oushizishu. All rights reserved.
 //
-#import "BJVPlayerManager.h"
+
 #import "BJPUMediaControlView.h"
 #import "BJPUMediaSettingView.h"
 #import "BJPUSliderView.h"

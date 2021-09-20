@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <BJVideoPlayerUI/BJPUVideoOptions.h>
+#import <BJPUVideoOptions.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
