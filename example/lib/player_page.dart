@@ -29,7 +29,7 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
         children: [
           Container(
               width: width,
-              height: width /16 * 9,
+              height: width / 16 * 9,
               child: BjyPlayerView(controller: _playerController)
           ),
           Container(
