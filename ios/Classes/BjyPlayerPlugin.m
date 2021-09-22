@@ -30,21 +30,9 @@
     self = [super init];
     if (self) {
         _registrar = registrar;
-        //TODO: 初始化百家云播放器 requestTokenWithVideoID 不知道写的对不对
     }
     return self;
 }
-
-#pragma mark - <BJVRequestTokenDelegate>
-
-//- (void)requestTokenWithVideoID:(NSString *)videoID
-//                     completion:(void (^)(NSString * _Nullable token, NSError * _Nullable error))completion {
-//    NSString *key = videoID ?: @"";
-//
-//    completion(BJLDownloadVideoTokens()[key], nil);
-//
-//    // [self requestTokenWithKey:key completion:completion];
-//}
 
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {

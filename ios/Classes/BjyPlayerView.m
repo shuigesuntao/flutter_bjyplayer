@@ -6,21 +6,20 @@
 //
 
 #import "BjyPlayerView.h"
-#import "BjyPlayerEventSink.h"
 #import <BJVideoPlayerUI.h>
 
-@interface BjyPlayerView ()
+@interface BjyPlayerView ()<FlutterStreamHandler,BJVRequestTokenDelegate>
 
 @property (nonatomic, strong) BJPUViewController *playerUIVC;
 @property (nonatomic, strong) UIView *playerFatherView;
 @property (nonatomic, strong) FlutterMethodChannel *methodChannel;
 @property (nonatomic, strong) FlutterEventChannel *eventChannel;
-@property (nonatomic, strong) BjyPlayerEventSink *eventSink;
+@property (nonatomic) FlutterEventSink eventSink;
+//UIKIT_EXTERN NSString *BJYRequestToken;
 
 @end
 
 @implementation BjyPlayerView
-
 
 + (NSObject<FlutterPlatformView> *)createWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId arguments:(id)args registrar:(id<FlutterPluginRegistrar>)registrar{
     BjyPlayerView *playerView = [[BjyPlayerView alloc] initWithRegistrar:registrar viewIdentifier:viewId];
@@ -31,6 +30,31 @@
     if (self = [self init]) {
         __weak typeof(self) weakSelf = self;
         // 初始化
+        [BJVideoPlayerCore setTokenDelegate:self];
+        BJPUVideoOptions *options = [BJPUVideoOptions new];
+        options.advertisementEnabled = false;
+        options.autoplay = true;
+        options.sliderDragEnabled = true;
+        options.playTimeRecordEnabled = true;
+        options.encryptEnabled = false;
+        options.backgroundAudioEnabled = true;
+        options.initialPlayTime = 0;
+        options.userName = @"";
+        options.userNumber = 0;
+
+
+        self.playerUIVC = [[BJPUViewController alloc] initWithVideoOptions:options];
+        // 退出回调
+        [self.playerUIVC setCancelCallback:^{
+            __strong __typeof__(weakSelf) strongSelf = weakSelf;
+            
+        }];
+
+        // 锁屏回调
+        [self.playerUIVC setScreenLockCallback:^(BOOL locked) {
+           
+        }];
+
         // 移除悬浮窗
         // 设置播放器控制样式
         // 设置监听
@@ -38,28 +62,55 @@
         [_methodChannel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
             [weakSelf handleMethodCall:call result:result];
         }];
+
         _eventChannel = [FlutterEventChannel eventChannelWithName:[@"plugin.bjyPlayer_event_" stringByAppendingString:[NSString stringWithFormat:@"%@", @(viewId)]] binaryMessenger:[registrar messenger]];
         [_eventChannel setStreamHandler:self];
+        
+        [self.playerFatherView addSubview:self.playerUIVC.view];
     }
     
     return self;
 }
 
-//- (UIView*)view {
-//    return playerFatherView;
+#pragma mark - <BJVRequestTokenDelegate>
+
+//- (void)requestTokenWithVideoID:(NSString *)videoID
+//                     completion:(void (^)(NSString * _Nullable token, NSError * _Nullable error))completion {
+//    NSString *key = videoID ?: @"";
+//    
+//    completion(BJYRequestToken, nil);
+//    
+//    // [self requestTokenWithKey:key completion:completion];
 //}
 
-//- (FlutterError*)onListenWithArguments:(id)arguments sink:(FlutterEventSink)eventSink {
-//    eventSink.setDelegate(sink);
-//
-//    return nil;
-//}
-//
-//- (FlutterError*)onCancelWithArguments:(id)arguments {
-//    eventSink.setDelegate(nil);
-//
-//    return nil;
-//}
+#pragma mark - FlutterPlatformView
+
+- (UIView *)view{
+    return self.playerFatherView;
+}
+
+
+- (UIView *)playerFatherView
+{
+    if (!_playerFatherView) {
+        _playerFatherView = UIView.new;
+        _playerFatherView.backgroundColor = UIColor.blackColor;
+    }
+    
+    return _playerFatherView;
+}
+
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    self.eventSink = eventSink;
+
+    return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    self.eventSink = nil;
+
+    return nil;
+}
 
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result{
@@ -106,6 +157,7 @@
         // 根据videoId token 播放视频
         NSString *videoId = args[@"videoId"];
         NSString *token = args[@"token"];
+//        BJYRequestToken = token;
         [self.playerUIVC playWithVid:videoId token:token];
         result(nil);
     }else {
@@ -126,7 +178,7 @@
 //                @"playerStatus": [NSString playState],
 //        },
 //    };
-//    self->_eventSink(eventData);
+//    self.eventSink(eventData);
 //}
 //
 //
@@ -140,7 +192,6 @@
 //                @"dur": [NSNumber numberWithInt:duration],
 //        },
 //    };
-//    self->_eventSink(eventData);
+//    self.eventSink(eventData);
 //}
-
 @end

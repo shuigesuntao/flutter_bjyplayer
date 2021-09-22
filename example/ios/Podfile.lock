@@ -25,6 +25,7 @@ PODS:
     - Vloud (= 1.7.1005)
   - Flutter (1.0.0)
   - flutter_bjyplayer (0.0.1):
+    - BaijiaYun/BJVideoPlayerCore (~> 2.11.8)
     - Flutter
     - flutter_bjyplayer/static.source (= 0.0.1)
   - flutter_bjyplayer/static.source (0.0.1):
@@ -55,10 +56,10 @@ SPEC CHECKSUMS:
   BaijiaYun: 42c4f8c93ffff5bc6ebf53098d10db251c6ab6e0
   BRTC: dc33907bd8c51a649d0b0b1852a5b573447041b3
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_bjyplayer: 370d14560c76de40f4cf569933f96fedfde70ef5
+  flutter_bjyplayer: 22df5d6b194a495593cf5f9dcb57e4d6a6abc126
   TXLiteAVSDK_TRTC: b23d0e558339396d3e34c6b39d5bebf3ed8f9700
   Vloud: 2a4a50124933596c74523414db79a5e05642098c
 
-PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+PODFILE CHECKSUM: 51e6bcb9fbac8ff06073b240f33da8265d68ef41
 
 COCOAPODS: 1.11.0

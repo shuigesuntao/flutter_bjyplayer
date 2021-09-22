@@ -10,8 +10,8 @@ class PlayerPage extends StatefulWidget {
 
 class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   BjyPlayerController _playerController = BjyPlayerController();
-  var _token = "w23vn0sctxQYFe_rjL5tFr5mJbeoZk2nt4M4sFjcCqMfgVjhW6nuIpgdYUaodCwc";
-  var _videoId = "155946606";
+  var _token = "KHpaJXjgS3Py99ZztkR0KMk0y71zrbNYp7FIYOmg76U63lVNIDOJdg";
+  var _videoId = "67487836";
   @override
   void initState() {
     super.initState();

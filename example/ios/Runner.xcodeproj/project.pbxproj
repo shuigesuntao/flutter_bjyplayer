@@ -151,6 +151,8 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				0C86AEBAAAE763DAC6BCEDAB /* [CP] Embed Pods Frameworks */,
 				7A1B01CE40697B7CA1DF407A /* [CP] Copy Pods Resources */,
+				35CF89832FB74DE8D5B84A4C /* [CP-User] [BJLiveCore] Embed Frameworks */,
+				E9B9FE0D469092C4F6497C19 /* [CP-User] [BJLiveBase] Clear Archs From Frameworks */,
 			);
 			buildRules = (
 			);
@@ -225,6 +227,16 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		35CF89832FB74DE8D5B84A4C /* [CP-User] [BJLiveCore] Embed Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "[CP-User] [BJLiveCore] Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Pods/BaijiaYun/frameworks/EmbedFrameworks.sh;
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -291,6 +303,16 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+		};
+		E9B9FE0D469092C4F6497C19 /* [CP-User] [BJLiveBase] Clear Archs From Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "[CP-User] [BJLiveBase] Clear Archs From Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "Pods/BaijiaYun/frameworks/ClearArchsFromFrameworks.sh \"BJHLMediaPlayer.framework\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
