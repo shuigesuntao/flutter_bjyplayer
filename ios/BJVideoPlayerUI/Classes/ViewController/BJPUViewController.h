@@ -26,6 +26,9 @@ typedef NS_ENUM(NSUInteger, BJVPlayerViewScreenType) {
 @property (nonatomic, assign) BJVPlayerViewScreenType playType;
 @property (nonatomic, copy) void (^cancelCallback)(void);
 @property (nonatomic, copy) void (^screenLockCallback)(BOOL locked);
+///转屏 通知
+@property (nonatomic, copy) void (^screenDeviceOrientationDidChange)(BOOL fullScreen);
+
 
 - (instancetype)initWithVideoOptions:(BJPUVideoOptions *)videoOptions;
 

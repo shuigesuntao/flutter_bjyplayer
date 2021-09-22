@@ -253,7 +253,11 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideInterfaceViewsAutomatically) object:nil];
     BOOL hidden = !self.mediaControlView.hidden;
     self.mediaControlView.hidden = hidden;
-    self.topBarView.hidden = hidden;
+    if (self.layoutType == BJVPlayerViewLayoutType_Horizon) {
+        self.topBarView.hidden = hidden;
+    }else {
+        self.topBarView.hidden = YES;
+    }
     self.vSubtitleButton.hidden = hidden;
     self.vRateButton.hidden = hidden;
     if (!self.mediaControlView.hidden) {
@@ -292,6 +296,8 @@
     
     // lockButton只有在横屏下才显示
     self.lockButton.hidden = !horizen || controlHidden;
+    //topbar 只有在横屏的时候才显示
+    self.topBarView.hidden = !horizen || controlHidden;
     
     [self.vRateButton bjl_updateConstraints:^(BJLConstraintMaker * _Nonnull make) {
         make.width.equalTo(horizen? @0.0 : @45.0);

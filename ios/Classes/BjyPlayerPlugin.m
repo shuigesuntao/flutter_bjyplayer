@@ -8,6 +8,7 @@
 #import "BjyPlayerPlugin.h"
 #import "BjyPlayerViewFactory.h"
 #import <BJVideoPlayerUI.h>
+#import "FullScreenViewController.h"
 
 @interface BjyPlayerPlugin ()
 
@@ -41,9 +42,35 @@
       NSString *videoId = args[@"videoId"];
       NSString *token = args[@"token"];
       //TODO: 跳转全屏播放原生页面 参数为 videoId token
+      
+      FullScreenViewController *playerVC = [[FullScreenViewController alloc] initWithVid:videoId token:token isNeedAD :NO mayDrag:YES];
+
+      playerVC.modalPresentationStyle = UIModalPresentationFullScreen;
+      [CurrentViewController() presentViewController:playerVC animated:YES completion:nil];
   }else {
     result(FlutterMethodNotImplemented);
   }
+}
+UIKIT_STATIC_INLINE UIViewController * CurrentViewController() {
+    
+    UIViewController *topViewController = [[UIApplication sharedApplication].keyWindow rootViewController];
+    
+    if ([topViewController isKindOfClass:[UITabBarController class]]) {
+        
+        topViewController = ((UITabBarController *)topViewController).selectedViewController;
+    }
+    
+    if ([topViewController presentedViewController]) {
+        
+        topViewController = [topViewController presentedViewController];
+    }
+    
+    if ([topViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController *)topViewController topViewController]) {
+        
+        return [(UINavigationController*)topViewController topViewController];
+    }
+    
+    return topViewController;
 }
 
 @end

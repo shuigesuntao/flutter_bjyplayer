@@ -16,7 +16,8 @@
 @property (nonatomic, strong) FlutterEventChannel *eventChannel;
 @property (nonatomic) FlutterEventSink eventSink;
 //UIKIT_EXTERN NSString *BJYRequestToken;
-
+///是否隐藏状态栏
+@property (nonatomic, assign) BOOL currentStatusBarHidden;
 @end
 
 @implementation BjyPlayerView
@@ -30,6 +31,8 @@
     if (self = [self init]) {
         __weak typeof(self) weakSelf = self;
         // 初始化
+        
+       
         [BJVideoPlayerCore setTokenDelegate:self];
         BJPUVideoOptions *options = [BJPUVideoOptions new];
         options.autoplay = YES;
@@ -41,19 +44,26 @@
         options.initialPlayTime = 0;
         options.userName = @"";
         options.userNumber = 0;
-
+        options.playerType = BJVPlayerType_IJKPlayer;
 
         self.playerUIVC = [[BJPUViewController alloc] initWithVideoOptions:options];
         // 退出回调
         [self.playerUIVC setCancelCallback:^{
             __strong __typeof__(weakSelf) strongSelf = weakSelf;
-            
+
         }];
 
         // 锁屏回调
         [self.playerUIVC setScreenLockCallback:^(BOOL locked) {
-           
+
+            
         }];
+        //横屏回调
+        self.playerUIVC.screenDeviceOrientationDidChange = ^(BOOL fullScreen) {
+            __strong __typeof__(weakSelf) strongSelf = weakSelf;
+            [strongSelf onToggleScreen:fullScreen];
+        };
+        
 
         // 移除悬浮窗
         options.autoplay = YES;
@@ -71,6 +81,7 @@
         [_eventChannel setStreamHandler:self];
         
         [self.playerFatherView addSubview:self.playerUIVC.view];
+        self.playerUIVC.view.frame = self.playerFatherView.frame;
     }
     
     return self;
@@ -90,6 +101,7 @@
 #pragma mark - FlutterPlatformView
 
 - (UIView *)view{
+    
     return self.playerFatherView;
 }
 
@@ -170,7 +182,19 @@
 }
 
 //onToggleScreen
-
+- (void)onToggleScreen:(BOOL) isFullScreen {
+    
+    NSNumber * num  = [NSNumber numberWithBool:isFullScreen];
+    
+    NSDictionary<NSString *, id> *eventData = @{
+        @"listener": @"BjyPlayerListener",
+        @"method": @"onToggleScreen",
+        @"data": @{
+                @"isFullScreen": num,
+        },
+    };
+    self.eventSink(eventData);
+}
 //onBack
 
 ///// 播放状态发生变化
@@ -198,4 +222,6 @@
 //    };
 //    self.eventSink(eventData);
 //}
+
+
 @end

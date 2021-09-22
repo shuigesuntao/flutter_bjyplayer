@@ -12,7 +12,8 @@
 @interface BJPUViewController () <BJPUSliderProtocol>
 
 @property (nonatomic, assign) CGFloat seekTargetTime;
-
+//记录方向
+@property(nonatomic,assign)UIInterfaceOrientation interfaceOrientation;
 @end
 
 @implementation BJPUViewController
@@ -33,7 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    //监听设备方向
+    [self listeningRotating];
     // 子视图
     [self setupSubviews];
     // 监听
@@ -42,6 +44,39 @@
     [self setMediaCallbacks];
     // 网络检查
     [self setupReachabilityManager];
+}
+#pragma mark - 监听设备旋转方向
+- (void)listeningRotating
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)handleDeviceOrientationChange
+{
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
+    switch (interfaceOrientation) {
+            
+        case UIInterfaceOrientationPortraitUpsideDown: {
+        } break;
+        case UIInterfaceOrientationPortrait: {
+            _layoutType = BJVPlayerViewLayoutType_Vertical;
+            self.topBarView.hidden = YES;
+        }
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+             UIInterfaceOrientationLandscapeLeft: {
+            _layoutType = BJVPlayerViewLayoutType_Horizon;
+        } break;
+            
+        default:
+            break;
+    }
+    if (self.screenDeviceOrientationDidChange){
+        self.screenDeviceOrientationDidChange(_layoutType == BJVPlayerViewLayoutType_Horizon);
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
