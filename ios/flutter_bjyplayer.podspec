@@ -23,10 +23,10 @@ A new flutter plugin project.
 
   s.subspec 'static.source' do |ss|
     ss.source_files = 'BJVideoPlayerUI/Classes/**/*'
-    ss.dependency 'BaijiaYun/BJVideoPlayerCore', '~> 2.11.8'
     ss.resource_bundles = {
      'BJVideoPlayerUI' => ['BJVideoPlayerUI/Assets/*.png']
     }
+  s.dependency 'BaijiaYun/BJVideoPlayerCore', '~> 2.11.8'
   end
 
   # Flutter.framework does not contain a i386 slice.
