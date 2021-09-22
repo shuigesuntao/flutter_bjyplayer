@@ -32,12 +32,12 @@
         // 初始化
         [BJVideoPlayerCore setTokenDelegate:self];
         BJPUVideoOptions *options = [BJPUVideoOptions new];
-        options.advertisementEnabled = false;
-        options.autoplay = true;
-        options.sliderDragEnabled = true;
-        options.playTimeRecordEnabled = true;
-        options.encryptEnabled = false;
-        options.backgroundAudioEnabled = true;
+        options.autoplay = YES;
+        options.playerType = BJVPlayerType_IJKPlayer;
+        //options.backgroundAudioEnabled = YES;
+        options.preferredDefinitionList = @[@"superHD", @"high", @"720p", @"1080p",@"low"];
+        options.playTimeRecordEnabled = YES;
+        options.encryptEnabled = NO;
         options.initialPlayTime = 0;
         options.userName = @"";
         options.userNumber = 0;
@@ -56,7 +56,11 @@
         }];
 
         // 移除悬浮窗
-        // 设置播放器控制样式
+        options.autoplay = YES;
+        options.playerType = BJVPlayerType_IJKPlayer;
+        //options.backgroundAudioEnabled = YES;
+        options.preferredDefinitionList = @[@"superHD", @"high", @"720p", @"1080p",@"low"];
+        options.playTimeRecordEnabled = YES;// 设置播放器控制样式
         // 设置监听
         _methodChannel = [FlutterMethodChannel methodChannelWithName:[@"plugin.bjyPlayer_" stringByAppendingString:[NSString stringWithFormat:@"%@", @(viewId)]] binaryMessenger:[registrar messenger]];
         [_methodChannel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
