@@ -38,4 +38,23 @@ typedef NS_ENUM(NSUInteger, BJVPlayerViewScreenType) {
 // 本地视频播放
 - (void)playWithDownloadItem:(BJVDownloadItem *)downloadItem;
 
+/************************与flutter定义的方法*********************************/
+///销毁
+- (void)ExecuteReleased;
+///是否销毁
+- (BOOL)IsReleased;
+///开始播放
+- (void)ExecutePlay;
+///暂停后播放
+- (void)ExecutePause;
+///暂停
+- (void)ExecuteStop;
+///重新播放
+- (void)ExecuteRePlay;
+///跳转到时间
+- (void)ExecuteSeekWitTime:(NSNumber *)time;
+///是否正在播放
+- (BOOL)isPlaying;
+///隐藏返回按钮
+- (void)ExecuteHideBackIcon;
 @end

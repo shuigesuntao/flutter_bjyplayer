@@ -96,15 +96,9 @@
     [self.playerUIVC setCancelCallback:^{
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         [[UIDevice currentDevice] setValue:@(UIDeviceOrientationPortrait) forKey:@"orientation"];
-
         [strongSelf dismissViewControllerAnimated:YES  completion:^{
-
-            
             [strongSelf.playerUIVC.playerManager destroy];
         }];
-        
-        
-        
     }];
     
     // 锁屏回调

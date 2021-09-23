@@ -137,6 +137,44 @@
     }
     return _playerManager;
 }
+///销毁
+- (void)ExecuteReleased{
+    [self.playerManager destroy];
+}
+///是否销毁
+- (BOOL)IsReleased{
+    return self.playerManager == nil ;
+}
+///开始播放
+- (void)ExecutePlay{
+    [self.playerManager play];
+}
+///暂停后播放
+- (void)ExecutePause{
+    [self.playerManager play];
+}
+///暂停
+- (void)ExecuteStop{
+    [self.playerManager pause];
+}
+///重新播放
+- (void)ExecuteRePlay{
+    [self.playerManager play];
+}
+///跳转到时间
+- (void)ExecuteSeekWitTime:(NSNumber *)time{
+    [self.playerManager seek:time.doubleValue];
+}
+///是否正在播放
+- (BOOL)isPlaying{
+    return self.playerManager.playStatus == BJVPlayerStatus_playing;
+}
+///隐藏返回按钮
+- (void)ExecuteHideBackIcon{
+    self.topBarView.hidden = true;
+}
+
+
 
 - (UILabel *)subtitleLabel {
     if (!_subtitleLabel) {
@@ -288,7 +326,7 @@
     else if (layoutType == BJVPlayerViewLayoutType_Vertical && horizon) {
         [[UIDevice currentDevice] setValue:@(UIDeviceOrientationPortrait) forKey:@"orientation"];
     }
-    else if (shouldupdate) {
+     if (shouldupdate) {
         [self updateConstriantsWithLayoutType:_layoutType];
     }
 }

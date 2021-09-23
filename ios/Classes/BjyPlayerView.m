@@ -7,6 +7,7 @@
 
 #import "BjyPlayerView.h"
 #import <BJVideoPlayerUI.h>
+#import "FloatPlayerView.h"
 
 @interface BjyPlayerView ()<FlutterStreamHandler,BJVRequestTokenDelegate>
 
@@ -52,7 +53,8 @@
             __strong __typeof__(weakSelf) strongSelf = weakSelf;
 
         }];
-
+        
+        
         // 锁屏回调
         [self.playerUIVC setScreenLockCallback:^(BOOL locked) {
 
@@ -63,14 +65,12 @@
             __strong __typeof__(weakSelf) strongSelf = weakSelf;
             [strongSelf onToggleScreen:fullScreen];
         };
-        
 
         // 移除悬浮窗
-        options.autoplay = YES;
-        options.playerType = BJVPlayerType_IJKPlayer;
-        //options.backgroundAudioEnabled = YES;
-        options.preferredDefinitionList = @[@"superHD", @"high", @"720p", @"1080p",@"low"];
-        options.playTimeRecordEnabled = YES;// 设置播放器控制样式
+
+        FloatPlayerView *floatPlayerView = [FloatPlayerView shareFloatPlayerView];
+        [floatPlayerView destroyFloatVideoPlayerView];
+//        [floatPlayerView showInWindowFromVideoPlayer:self.playerUIVC];
         // 设置监听
         _methodChannel = [FlutterMethodChannel methodChannelWithName:[@"plugin.bjyPlayer_" stringByAppendingString:[NSString stringWithFormat:@"%@", @(viewId)]] binaryMessenger:[registrar messenger]];
         [_methodChannel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
@@ -136,39 +136,55 @@
         // 初始化方法
         result(nil);
     }else if ([@"isReleased" isEqualToString:call.method]) {
-        self.playerUIVC
+        BOOL isReleased  =   [self.playerUIVC IsReleased];
         // 是否已释放
-        result(nil);
+        result([NSNumber numberWithBool:isReleased]);
     }else if ([@"bindPlayerView" isEqualToString:call.method]) {
         // 绑定播放器视图
         result(nil);
     }else if ([@"play" isEqualToString:call.method]) {
         // 播放
+        [self.playerUIVC ExecutePlay];
         result(nil);
     }else if ([@"pause" isEqualToString:call.method]) {
         // 播放
+        [self.playerUIVC ExecutePause];
+
         result(nil);
     }else if ([@"stop" isEqualToString:call.method]) {
         // 停止
+        [self.playerUIVC ExecuteStop];
+
         result(nil);
     }else if ([@"released" isEqualToString:call.method]) {
         // 释放资源
+        [self.playerUIVC ExecuteReleased];
+
+        
         result(nil);
     }else if ([@"rePlay" isEqualToString:call.method]) {
         // 重播
+        [self.playerUIVC ExecuteRePlay];
+
         result(nil);
     }else if ([@"seek" isEqualToString:call.method]) {
         // 跳转到
         NSNumber *time = args[@"time"];
+        [self.playerUIVC ExecuteSeekWitTime:time];
         result(nil);
     }else if ([@"isPlaying" isEqualToString:call.method]) {
         // 是否正在播放
-        result(nil);
+        BOOL isPlaying  =   [self.playerUIVC isPlaying];
+        // 是否已释放
+        result([NSNumber numberWithBool:isPlaying]);
     }else if ([@"hideBackIcon" isEqualToString:call.method]) {
         // 隐藏返回按钮
+        [self.playerUIVC ExecuteHideBackIcon];
         result(nil);
     }else if ([@"tryOpenFloatViewPlay" isEqualToString:call.method]) {
         // 打开悬浮窗
+        FloatPlayerView *floatPlayeView = [FloatPlayerView shareFloatPlayerView];
+        [floatPlayeView showInWindowFromVideoPlayer:self.playerUIVC];
         result(nil);
     }else if ([@"setupOnlineVideoWithId" isEqualToString:call.method]) {
         // 根据videoId token 播放视频
@@ -176,6 +192,8 @@
         NSString *token = args[@"token"];
 //        BJYRequestToken = token;
         [self.playerUIVC playWithVid:videoId token:token];
+        FloatPlayerView *floatPlayerView = [FloatPlayerView shareFloatPlayerView];
+        [floatPlayerView showInWindowWithPlayWithVid:videoId  token:token];
         result(nil);
     }else {
         result(FlutterMethodNotImplemented);
@@ -184,14 +202,12 @@
 
 //onToggleScreen
 - (void)onToggleScreen:(BOOL) isFullScreen {
-    
-    NSNumber * num  = [NSNumber numberWithBool:isFullScreen];
-    
+        
     NSDictionary<NSString *, id> *eventData = @{
         @"listener": @"BjyPlayerListener",
         @"method": @"onToggleScreen",
         @"data": @{
-                @"isFullScreen": num,
+                @"isFullScreen": [NSNumber numberWithBool:isFullScreen],
         },
     };
     self.eventSink(eventData);
