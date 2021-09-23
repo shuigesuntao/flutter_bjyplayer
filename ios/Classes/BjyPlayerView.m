@@ -192,8 +192,8 @@
         NSString *token = args[@"token"];
 //        BJYRequestToken = token;
         [self.playerUIVC playWithVid:videoId token:token];
-        FloatPlayerView *floatPlayerView = [FloatPlayerView shareFloatPlayerView];
-        [floatPlayerView showInWindowWithPlayWithVid:videoId  token:token];
+        //FloatPlayerView *floatPlayerView = [FloatPlayerView shareFloatPlayerView];
+        //[floatPlayerView showInWindowWithPlayWithVid:videoId  token:token];
         result(nil);
     }else {
         result(FlutterMethodNotImplemented);
@@ -202,12 +202,12 @@
 
 //onToggleScreen
 - (void)onToggleScreen:(BOOL) isFullScreen {
-        
+    NSLog(@"onToggleScreen");
     NSDictionary<NSString *, id> *eventData = @{
         @"listener": @"BjyPlayerListener",
         @"method": @"onToggleScreen",
         @"data": @{
-                @"isFullScreen": [NSNumber numberWithBool:isFullScreen],
+           @"isFullScreen": [NSNumber numberWithBool:isFullScreen],
         },
     };
     self.eventSink(eventData);
