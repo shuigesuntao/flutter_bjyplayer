@@ -77,7 +77,6 @@ class BjyPlayerController {
           if (_listeners!.contains(listener)) {
             switch (method) {
               case kMethodOnToggleScreen:
-                print("onToggleScreen:" + data['isFullScreen']);
                 listener.onToggleScreen(data['isFullScreen']??false);
                 break;
               case kMethodOnBack:

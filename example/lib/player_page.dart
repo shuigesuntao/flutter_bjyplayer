@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bjyplayer/flutter_bjyplayer.dart';
 
 class PlayerPage extends StatefulWidget {
@@ -13,7 +16,7 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   var _token = "KHpaJXjgS3Py99ZztkR0KMk0y71zrbNYp7FIYOmg76U63lVNIDOJdg";
   var _videoId = "67487836";
   var _currentIndex = 0;
-  var _isFullScreen = 0;
+  var _isFullScreen = false;
   @override
   void initState() {
     super.initState();
@@ -24,9 +27,9 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.07),
+        preferredSize: Size.fromHeight(kToolbarHeight),
         child: Visibility(
-          visible: _isFullScreen == 0,
+          visible: !_isFullScreen,
           child: AppBar(
             centerTitle: true,
             title: Text("百家云Demo"),
@@ -37,43 +40,49 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
         children: [
           Container(
               width: width,
-              height: width / 16 * 9,
+              height: min(MediaQuery.of(context).size.height,width/16*9),
               child: BjyPlayerView(controller: _playerController)
           ),
-          Container(
-            padding: EdgeInsets.all(15),
-            child: Row(
+          Expanded(child: Visibility(
+            visible: !_isFullScreen,
+            child: Column(
               children: [
-                Text("共15个课时",
-                    style: TextStyle(
-                        color: Colors.grey[600], fontSize: 12)),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    height: 4,
-                    child:ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: LinearProgressIndicator(
-                        value: 0 / 100,
-                        backgroundColor: Colors.grey[100],
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.red),
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Text("共15个课时",
+                          style: TextStyle(
+                              color: Colors.grey[600], fontSize: 12)),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          height: 4,
+                          child:ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: LinearProgressIndicator(
+                              value: 0 / 100,
+                              backgroundColor: Colors.grey[100],
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.red),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      Text("已学习67%",
+                          style: TextStyle(
+                              color: Colors.grey[600], fontSize: 12)),
+                    ],
                   ),
                 ),
-                Text("已学习67%",
-                    style: TextStyle(
-                        color: Colors.grey[600], fontSize: 12)),
+                Divider(height: 1, color: Colors.grey[400]),
+                Expanded(
+                    child: ListView(
+                      children: List.generate(15, (index) => _buildItem(index)),
+                    )
+                )
               ],
-            ),
-          ),
-          Divider(height: 1, color: Colors.grey[400]),
-          Expanded(
-            child: ListView(
-              children: List.generate(15, (index) => _buildItem(index)),
-            )
-          )
+            ),),),
         ],
       )
     );
@@ -162,11 +171,11 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   }
 
   @override
-  void onToggleScreen(int isFullScreen) {
+  void onToggleScreen(bool isFullScreen) {
+    print("onToggleScreen:$isFullScreen");
     setState(() {
       _isFullScreen = isFullScreen;
     });
-    print("onToggleScreen:$_isFullScreen");
   }
 
   void _init() {

@@ -8,6 +8,7 @@
 #import "BjyPlayerView.h"
 #import <BJVideoPlayerUI.h>
 #import "FloatPlayerView.h"
+#import "BjyPlayerEventSinkQueue.h"
 
 @interface BjyPlayerView ()<FlutterStreamHandler,BJVRequestTokenDelegate>
 
@@ -15,13 +16,14 @@
 @property (nonatomic, strong) UIView *playerFatherView;
 @property (nonatomic, strong) FlutterMethodChannel *methodChannel;
 @property (nonatomic, strong) FlutterEventChannel *eventChannel;
-@property (nonatomic) FlutterEventSink eventSink;
 //UIKIT_EXTERN NSString *BJYRequestToken;
 ///是否隐藏状态栏
 @property (nonatomic, assign) BOOL currentStatusBarHidden;
 @end
 
-@implementation BjyPlayerView
+@implementation BjyPlayerView{
+    BjyPlayerEventSinkQueue *_eventSink;
+}
 
 + (NSObject<FlutterPlatformView> *)createWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId arguments:(id)args registrar:(id<FlutterPluginRegistrar>)registrar{
     BjyPlayerView *playerView = [[BjyPlayerView alloc] initWithRegistrar:registrar viewIdentifier:viewId];
@@ -32,7 +34,7 @@
     if (self = [self init]) {
         __weak typeof(self) weakSelf = self;
         // 初始化
-        
+        _eventSink = [BjyPlayerEventSinkQueue new];
        
         [BJVideoPlayerCore setTokenDelegate:self];
         BJPUVideoOptions *options = [BJPUVideoOptions new];
@@ -116,18 +118,17 @@
     return _playerFatherView;
 }
 
-- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    self.eventSink = eventSink;
+- (FlutterError* _Nullable)onListenWithArguments:(id _Nullable)arguments
+                                       eventSink:(FlutterEventSink)events{
+    [_eventSink setDelegate:events];
 
     return nil;
 }
 
-- (FlutterError*)onCancelWithArguments:(id)arguments {
-    self.eventSink = nil;
-
+- (FlutterError* _Nullable)onCancelWithArguments:(id _Nullable)arguments{
+    [_eventSink setDelegate:nil];
     return nil;
 }
-
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result{
     NSDictionary *args = call.arguments;
@@ -202,7 +203,6 @@
 
 //onToggleScreen
 - (void)onToggleScreen:(BOOL) isFullScreen {
-    NSLog(@"onToggleScreen");
     NSDictionary<NSString *, id> *eventData = @{
         @"listener": @"BjyPlayerListener",
         @"method": @"onToggleScreen",
@@ -210,7 +210,7 @@
            @"isFullScreen": [NSNumber numberWithBool:isFullScreen],
         },
     };
-    self.eventSink(eventData);
+    [_eventSink success:eventData];
 }
 //onBack
 
