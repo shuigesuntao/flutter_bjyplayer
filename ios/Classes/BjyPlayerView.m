@@ -136,6 +136,7 @@
         // 初始化方法
         result(nil);
     }else if ([@"isReleased" isEqualToString:call.method]) {
+        self.playerUIVC
         // 是否已释放
         result(nil);
     }else if ([@"bindPlayerView" isEqualToString:call.method]) {

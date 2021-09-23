@@ -1,7 +1,7 @@
 part of flutter_bjyplayer;
 abstract class BjyPlayerListener{
   /// 全屏切换
-  void onToggleScreen();
+  void onToggleScreen(int isFullScreen);
 
   /// 返回
   void onBack();

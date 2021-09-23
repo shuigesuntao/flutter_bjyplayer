@@ -13,6 +13,7 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   var _token = "KHpaJXjgS3Py99ZztkR0KMk0y71zrbNYp7FIYOmg76U63lVNIDOJdg";
   var _videoId = "67487836";
   var _currentIndex = 0;
+  var _isFullScreen = 0;
   @override
   void initState() {
     super.initState();
@@ -22,8 +23,15 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("百家云Demo"),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.07),
+        child: Visibility(
+          visible: _isFullScreen == 0,
+          child: AppBar(
+            centerTitle: true,
+            title: Text("百家云Demo"),
+          )
+        ),
       ),
       body: Column(
         children: [
@@ -154,8 +162,11 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   }
 
   @override
-  void onToggleScreen() {
-    print("onToggleScreen");
+  void onToggleScreen(int isFullScreen) {
+    setState(() {
+      _isFullScreen = isFullScreen;
+    });
+    print("onToggleScreen:$_isFullScreen");
   }
 
   void _init() {
