@@ -25,7 +25,12 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async{
+          await _playerController.tryOpenFloatViewPlay();
+      return true;
+    },
+    child:Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Visibility(
@@ -85,7 +90,7 @@ class _PlayerPageState extends State<PlayerPage> with BjyPlayerListener {
             ),),),
         ],
       )
-    );
+    ),);
   }
 
   Widget _buildItem(int index){
