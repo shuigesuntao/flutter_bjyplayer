@@ -20,6 +20,9 @@
                return (old == nil) || (now.integerValue != old.integerValue);
            } observer:^BOOL(NSNumber * _Nullable now, NSNumber * _Nullable old, BJLPropertyChange * _Nullable change) {
                bjl_strongify(self);
+               if (self.progressBlock) {
+                   self.progressBlock(self.playerManager.currentTime, self.playerManager.duration);
+               }
                BJVPlayerStatus status = self.playerManager.playStatus;
                NSLog(@"BJPUViewController - playerPlayStateChanged:%td", status);
                [self updateWithPlayState:status];

@@ -32,7 +32,6 @@ static CGFloat const kButtomBarViewHeight = 89.f;
 
 @property (nonatomic, assign) NSInteger playCumulativeTime;
 @property (nonatomic, assign) long playDuration;
-@property (nonatomic, strong) FullScreenViewController *fullVC;
 @property (nonatomic, strong) BJPUViewController * playerUIVC;
 @end
 
@@ -63,7 +62,10 @@ static CGPoint lastCenter;
     _playerViewHeight = _playerViewWidth * 9.f/16.f;
     
     _closeButton = [UIButton new];
-    [_closeButton setImage:[UIImage imageNamed:@"ic_back"] forState:normal];
+    NSString *bundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"BJVideoPlayerUI" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    
+    [_closeButton setImage:[UIImage imageNamed:@"float_close@2x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:normal];
     [_closeButton addTarget:self action:@selector(closeClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_closeButton];
     [_closeButton bjl_makeConstraints:^(BJLConstraintMaker * _Nonnull make) {
@@ -78,7 +80,7 @@ static CGPoint lastCenter;
         make.height.equalTo(@2);
     }];
     _fullButton = [UIButton new];
-    [_fullButton setImage:[UIImage imageNamed:@"ic_scale"] forState:normal];
+    [_fullButton setImage:[UIImage imageNamed:@"float_open@2x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:normal];
     [_fullButton addTarget:self action:@selector(fullScreenAction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_fullButton];
     
@@ -88,8 +90,8 @@ static CGPoint lastCenter;
         make.width.height.equalTo(@15);
     }];
     _playButton = [UIButton new];
-    [_playButton setImage:[UIImage imageNamed:@"ic_pause"] forState:normal];
-    [_playButton setImage:[UIImage imageNamed:@"ic_play"] forState:normal];
+    [_playButton setImage:[UIImage imageNamed:@"float_pause@2x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:normal];
+    [_playButton setImage:[UIImage imageNamed:@"float_play@2x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateSelected];
     [_playButton addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_playButton];
     [_playButton bjl_makeConstraints:^(BJLConstraintMaker * _Nonnull make) {
@@ -99,6 +101,8 @@ static CGPoint lastCenter;
     }];
     
     [self addPlayerViewGestureRecognizerEvents];
+    
+    
 }
 
 + (instancetype)shareFloatPlayerView {
@@ -126,11 +130,7 @@ static CGPoint lastCenter;
         options.playerType = BJVPlayerType_IJKPlayer;
 
          self.playerUIVC = [[BJPUViewController alloc] initWithVideoOptions:options];
-        // 退出回调
-        [self.playerUIVC setCancelCallback:^{
-
-            
-        }];
+       
     }
     [self.playerUIVC playWithVid:vid token:token];
     [self showInWindowFromVideoPlayer:self.playerUIVC];
@@ -142,35 +142,40 @@ static CGPoint lastCenter;
 //
 //
 //}
-
-- (void)addPlayerViewGestureRecognizerEvents{
-    //拖拽手势
-    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-    [self addGestureRecognizer:panGesture];
-    panGesture.delegate = self;
-    self.panGesture = panGesture;
-    //监听通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
 - (void)showInWindowFromVideoPlayer:(BJPUViewController  *)playerVC{
     if ([[UIApplication sharedApplication].keyWindow.subviews containsObject:self]) {
         [self removeFromSuperview];
     }
+    self.playerUIVC = playerVC;
     
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
     CGFloat y = screenHeight - _playerViewHeight - kButtomBarViewHeight;
     self.frame = CGRectMake(screenWidth - _playerViewWidth, screenHeight, _playerViewWidth, _playerViewHeight);
     [self addSubview:playerVC.view];
-    playerVC.view.frame = self.frame;
+    playerVC.playType = BJVPlayerViewScreenNormalType;
+    playerVC.layoutType = BJVPlayerViewLayoutType_Vertical;
+    [playerVC.view bjl_remakeConstraints:^(BJLConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    [playerVC ExecuteHideBootomBar:true];
+    playerVC.view.userInteractionEnabled = false;
     [playerVC viewDidLoad];
     [playerVC viewWillAppear:true];
     [playerVC viewDidAppear:true];
     [playerVC ExecutePlay];
-
+    [playerVC ExecuteSetupObservers];
+    // 退出回调
+    __weak typeof(self) weakSelf = self;
+    [playerVC setCancelCallback:^{
+//        __strong __typeof(weakSelf) strongSelf = weakSelf;
+    }];
+    
+    playerVC.progressBlock = ^(NSTimeInterval currentTime, NSTimeInterval duration) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        BOOL durationInvalid = (ceil(duration) <= 0);
+        strongSelf.progressView.progress = durationInvalid ? 0.f : (currentTime / duration);
+    };
     [self bringSubviewToFront:self.closeButton];
    // [self bringSubviewToFront:self.durationLabel];
     [self bringSubviewToFront:self.progressView];
@@ -185,6 +190,19 @@ static CGPoint lastCenter;
     }];
     self.hidden = NO;
 }
+
+- (void)addPlayerViewGestureRecognizerEvents{
+    //拖拽手势
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    [self addGestureRecognizer:panGesture];
+    panGesture.delegate = self;
+    self.panGesture = panGesture;
+    //监听通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
 
 #pragma mark - 将失去焦点通知
 
@@ -202,10 +220,6 @@ static CGPoint lastCenter;
 #pragma mark- UIPinchGestureRecognizer
 
 - (void)doubleClick{
-    
-}
-
-- (void)singleClick{
     
 }
 
@@ -346,15 +360,7 @@ static CGPoint lastCenter;
 }
 
 
-#pragma mark- 关闭／播放的监听事件
 
-- (void)closeClick {
-    
-}
-
-- (void)destroyFloatVideoPlayerView{
-    
-}
 
 #pragma mark - UIGestureDelegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer
@@ -377,18 +383,46 @@ static CGPoint lastCenter;
     return YES;
 }
 
-#pragma mark - submit video progress
-
-
+#pragma mark -
 
 - (void)fullScreenAction {
-    [self singleClick];
+    
+    FullScreenViewController * fullVC = [[FullScreenViewController alloc]initWithVideoPlayer:self.playerUIVC];
+    [CurrentViewController() bjl_presentFullScreenViewController:fullVC animated:true completion:nil];
 }
 - (void)playAction:(UIButton *)sender {
     sender.selected = !sender.selected;
-    
-    
-    
-    
+    if (sender.selected){
+        [self.playerUIVC ExecuteStop];
+    }else {
+        [self.playerUIVC ExecutePlay];
+    }
 }
+#pragma mark- 关闭／播放的监听事件
+
+- (void)closeClick {
+    [self destroyFloatVideoPlayerView];
+}
+
+- (void)destroyFloatVideoPlayerView{
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    [UIView animateWithDuration:0.25 animations:^{
+        CGRect frame = self.frame;
+        frame.origin.y = ScreenHeight;
+        self.frame = frame;
+    } completion:^(BOOL finished) {
+        [self.playerUIVC ExecuteStop];
+        [self.playerUIVC ExecuteReleased];
+        self.playerUIVC = nil;
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [self removeFromSuperview];
+        if ([[UIApplication sharedApplication].keyWindow.subviews containsObject:self]){
+            [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            [self removeFromSuperview];
+        }
+    }];
+    floatPlayerView = nil;
+    onceToken = 0;
+}
+
 @end

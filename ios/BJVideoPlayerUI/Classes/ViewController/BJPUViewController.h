@@ -26,6 +26,8 @@ typedef NS_ENUM(NSUInteger, BJVPlayerViewScreenType) {
 @property (nonatomic, assign) BJVPlayerViewScreenType playType;
 @property (nonatomic, copy) void (^cancelCallback)(void);
 @property (nonatomic, copy) void (^screenLockCallback)(BOOL locked);
+@property (nonatomic, copy) void (^progressBlock)(NSTimeInterval currentTime,NSTimeInterval duration);
+
 ///转屏 通知
 @property (nonatomic, copy) void (^screenDeviceOrientationDidChange)(BOOL fullScreen);
 
@@ -39,6 +41,8 @@ typedef NS_ENUM(NSUInteger, BJVPlayerViewScreenType) {
 - (void)playWithDownloadItem:(BJVDownloadItem *)downloadItem;
 
 /************************与flutter定义的方法*********************************/
+
+
 ///销毁
 - (void)ExecuteReleased;
 ///是否销毁
@@ -56,5 +60,9 @@ typedef NS_ENUM(NSUInteger, BJVPlayerViewScreenType) {
 ///是否正在播放
 - (BOOL)isPlaying;
 ///隐藏返回按钮
-- (void)ExecuteHideBackIcon;
+- (void)ExecuteHideBackIcon:(BOOL)isHidden;
+///隐藏bottom bar
+- (void)ExecuteHideBootomBar:(BOOL)isHidden;
+///重置监听
+- (void)ExecuteSetupObservers;
 @end

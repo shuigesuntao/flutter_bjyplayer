@@ -51,26 +51,6 @@
     result(FlutterMethodNotImplemented);
   }
 }
-UIKIT_STATIC_INLINE UIViewController * CurrentViewController() {
-    
-    UIViewController *topViewController = [[UIApplication sharedApplication].keyWindow rootViewController];
-    
-    if ([topViewController isKindOfClass:[UITabBarController class]]) {
-        
-        topViewController = ((UITabBarController *)topViewController).selectedViewController;
-    }
-    
-    if ([topViewController presentedViewController]) {
-        
-        topViewController = [topViewController presentedViewController];
-    }
-    
-    if ([topViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController *)topViewController topViewController]) {
-        
-        return [(UINavigationController*)topViewController topViewController];
-    }
-    
-    return topViewController;
-}
+
 
 @end

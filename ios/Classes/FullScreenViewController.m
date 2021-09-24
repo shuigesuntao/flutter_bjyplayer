@@ -9,12 +9,12 @@
 #import <BJVideoPlayerUI.h>
 #import <BJLiveBase/BJLiveBase+UIKit.h>
 #import <BJPUViewController+protected.h>
-
+#import "FloatPlayerView.h"
 @interface FullScreenViewController ()
 @property (strong, nonatomic) BJPUViewController *playerUIVC;
 @property (strong, nonatomic) NSString *vid;
 @property (strong, nonatomic) NSString *token;
-@property (assign, nonatomic) BOOL isNeedAD, mayDrag;
+@property (assign, nonatomic) BOOL isNeedAD, mayDrag,isFloatView;
 
 @end
 
@@ -39,15 +39,24 @@
     }
     return self;
 }
+- (instancetype)initWithVideoPlayer:(id)playerVC{
+    self = [super init];
+    if (self) {
+        self.playerUIVC = playerVC;
+        _isFloatView = true;
+        self.playerUIVC.view.userInteractionEnabled = true;
+        [playerVC ExecuteHideBackIcon:false];
+        [playerVC ExecuteHideBootomBar:false];
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     // subview
     [self setupSubView];
-    // play
-    [self.playerUIVC playWithVid:_vid token:_token];
-    self.playerUIVC.playType = BJVPlayerViewScreenFullScreenType;
+  
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -75,29 +84,39 @@
 
 - (void)setupSubView {
     // playerView
-    BJPUVideoOptions *options = [BJPUVideoOptions new];
-    options.autoplay = YES;
-    options.playerType = BJVPlayerType_IJKPlayer;
-    //options.backgroundAudioEnabled = YES;
-    options.preferredDefinitionList = @[@"superHD", @"high", @"720p", @"1080p",@"low"];
-    options.playTimeRecordEnabled = YES;
-    options.encryptEnabled = NO;
-    options.initialPlayTime = 0;
-    options.userName = @"";
-    options.userNumber = 0;
-    options.playerType = BJVPlayerType_IJKPlayer;
-    
-    self.playerUIVC = [[BJPUViewController alloc] initWithVideoOptions:options];
-    self.playerUIVC.layoutType = BJVPlayerViewLayoutType_Horizon;
-    [self addChildViewController:self.playerUIVC];
+    if (self.playerUIVC == nil) {
+        BJPUVideoOptions *options = [BJPUVideoOptions new];
+        options.autoplay = YES;
+        options.playerType = BJVPlayerType_IJKPlayer;
+        //options.backgroundAudioEnabled = YES;
+        options.preferredDefinitionList = @[@"superHD", @"high", @"720p", @"1080p",@"low"];
+        options.playTimeRecordEnabled = YES;
+        options.encryptEnabled = NO;
+        options.initialPlayTime = 0;
+        options.userName = @"";
+        options.userNumber = 0;
+        options.playerType = BJVPlayerType_IJKPlayer;
+        
+        self.playerUIVC = [[BJPUViewController alloc] initWithVideoOptions:options];
+        self.playerUIVC.layoutType = BJVPlayerViewLayoutType_Horizon;
+        // play
+        [self.playerUIVC playWithVid:_vid token:_token];
+    }
+    self.playerUIVC.playType = BJVPlayerViewScreenFullScreenType;
+    [self bjl_addChildViewController:self.playerUIVC];
     [self.playerUIVC didMoveToParentViewController:self];
     __weak typeof(self) weakSelf = self;
     // 退出回调
     [self.playerUIVC setCancelCallback:^{
         __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.playerUIVC bjl_removeFromParentViewControllerAndSuperiew];
         [[UIDevice currentDevice] setValue:@(UIDeviceOrientationPortrait) forKey:@"orientation"];
         [strongSelf dismissViewControllerAnimated:YES  completion:^{
-            [strongSelf.playerUIVC.playerManager destroy];
+            if (strongSelf->_isFloatView){
+                [[FloatPlayerView shareFloatPlayerView]showInWindowFromVideoPlayer:strongSelf.playerUIVC];
+            }else {
+                [strongSelf.playerUIVC.playerManager destroy];
+            }
         }];
     }];
     
@@ -120,9 +139,11 @@
 
 - (void)updateConstraintsForHorizontal:(BOOL)isHorizontal {
     if (isHorizontal) {
-        [self.playerUIVC.view bjl_remakeConstraints:^(BJLConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-        }];
+        if (self != nil){
+            [self.playerUIVC.view bjl_remakeConstraints:^(BJLConstraintMaker *make) {
+                make.edges.equalTo(self.view);
+            }];
+        }
     }
     else {
         [self.playerUIVC.view bjl_remakeConstraints:^(BJLConstraintMaker *make) {

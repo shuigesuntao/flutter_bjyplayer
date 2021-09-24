@@ -181,6 +181,7 @@
 - (void)cancelAction {
     if (self.cancelCallback) {
         self.cancelCallback();
+        return;
     }
     else if (self.navigationController) {
         [self.navigationController popViewControllerAnimated:YES];

@@ -170,11 +170,17 @@
     return self.playerManager.playStatus == BJVPlayerStatus_playing;
 }
 ///隐藏返回按钮
-- (void)ExecuteHideBackIcon{
-    self.topBarView.hidden = true;
+- (void)ExecuteHideBackIcon:(BOOL)isHidden{
+    self.topBarView.hidden = isHidden;
+}
+- (void)ExecuteHideBootomBar:(BOOL)isHidden{
+    self.mediaControlView.hidden = isHidden;
 }
 
-
+///重置监听
+- (void)ExecuteSetupObservers{
+    [self setupObservers];
+}
 
 - (UILabel *)subtitleLabel {
     if (!_subtitleLabel) {

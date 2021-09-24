@@ -180,7 +180,7 @@
         result([NSNumber numberWithBool:isPlaying]);
     }else if ([@"hideBackIcon" isEqualToString:call.method]) {
         // 隐藏返回按钮
-        [self.playerUIVC ExecuteHideBackIcon];
+        [self.playerUIVC ExecuteHideBackIcon:true];
         result(nil);
     }else if ([@"tryOpenFloatViewPlay" isEqualToString:call.method]) {
         // 打开悬浮窗
@@ -191,10 +191,7 @@
         // 根据videoId token 播放视频
         NSString *videoId = args[@"videoId"];
         NSString *token = args[@"token"];
-//        BJYRequestToken = token;
         [self.playerUIVC playWithVid:videoId token:token];
-        //FloatPlayerView *floatPlayerView = [FloatPlayerView shareFloatPlayerView];
-        //[floatPlayerView showInWindowWithPlayWithVid:videoId  token:token];
         result(nil);
     }else {
         result(FlutterMethodNotImplemented);
