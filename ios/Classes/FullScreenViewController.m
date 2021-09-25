@@ -41,9 +41,11 @@
 }
 - (instancetype)initWithVideoPlayer:(id)playerVC{
     self = [super init];
-    NSLog(@"小窗全屏初始化");
+
     if (self) {
+        NSLog(@"小窗全屏初始化");
         self.playerUIVC = playerVC;
+        NSLog(@"%@",playerVC);
         _isFloatView = true;
         self.playerUIVC.view.userInteractionEnabled = true;
         [playerVC ExecuteHideBackIcon:false];
@@ -86,6 +88,7 @@
 - (void)setupSubView {
     // playerView
     if (self.playerUIVC == nil) {
+        NSLog(@"playerUIVC为nil");
         BJPUVideoOptions *options = [BJPUVideoOptions new];
         options.autoplay = YES;
         options.playerType = BJVPlayerType_IJKPlayer;
@@ -126,6 +129,7 @@
         
     }];
     [self.view addSubview:self.playerUIVC.view];
+    NSLog(@"addSubview");
 }
 
 
