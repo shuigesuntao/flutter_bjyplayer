@@ -53,11 +53,11 @@
     return self;
 }
 - (void)viewDidLoad {
+  NSLog(@"viewDidLoad");
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     // subview
-     NSLog(@"viewDidLoad");
     [self setupSubView];
   
 }
