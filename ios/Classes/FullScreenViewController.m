@@ -57,7 +57,7 @@
      NSLog(@"viewDidLoad");
     self.view.backgroundColor = [UIColor whiteColor];
      NSLog(@"viewDidLoad");
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    //[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
      NSLog(@"viewDidLoad");
     // subview
     [self setupSubView];
