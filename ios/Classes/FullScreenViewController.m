@@ -54,11 +54,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-     NSLog(@"viewDidLoad");
     self.view.backgroundColor = [UIColor whiteColor];
-     NSLog(@"viewDidLoad");
     //[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-     NSLog(@"viewDidLoad");
     // subview
     [self setupSubView];
   
@@ -79,22 +76,17 @@
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    NSLog(@"viewWillTransitionToSize");
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-     NSLog(@"viewWillTransitionToSize");
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
         [self.view setNeedsUpdateConstraints];
     } completion:nil];
-     NSLog(@"viewWillTransitionToSize");
 }
 
 #pragma mark - subViews
 
 - (void)setupSubView {
-     NSLog(@"setupSubView");
     // playerView
     if (self.playerUIVC == nil) {
-        NSLog(@"playerUIVC为nil");
         BJPUVideoOptions *options = [BJPUVideoOptions new];
         options.autoplay = YES;
         options.playerType = BJVPlayerType_IJKPlayer;
@@ -112,7 +104,6 @@
         // play
         [self.playerUIVC playWithVid:_vid token:_token];
     }
-     NSLog(@"playerUIVC有值");
     self.playerUIVC.playType = BJVPlayerViewScreenFullScreenType;
     [self bjl_addChildViewController:self.playerUIVC];
     [self.playerUIVC didMoveToParentViewController:self];
@@ -136,7 +127,6 @@
         
     }];
     [self.view addSubview:self.playerUIVC.view];
-    NSLog(@"addSubview执行完毕");
 }
 
 
