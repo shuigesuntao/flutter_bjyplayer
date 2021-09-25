@@ -53,10 +53,12 @@
     return self;
 }
 - (void)viewDidLoad {
-  NSLog(@"viewDidLoad");
     [super viewDidLoad];
+     NSLog(@"viewDidLoad");
     self.view.backgroundColor = [UIColor whiteColor];
+     NSLog(@"viewDidLoad");
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+     NSLog(@"viewDidLoad");
     // subview
     [self setupSubView];
   
@@ -77,10 +79,13 @@
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    NSLog(@"viewWillTransitionToSize");
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+     NSLog(@"viewWillTransitionToSize");
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
         [self.view setNeedsUpdateConstraints];
     } completion:nil];
+     NSLog(@"viewWillTransitionToSize");
 }
 
 #pragma mark - subViews
