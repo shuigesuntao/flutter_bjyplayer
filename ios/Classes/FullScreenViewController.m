@@ -43,13 +43,12 @@
     self = [super init];
 
     if (self) {
-        NSLog(@"小窗全屏初始化");
         self.playerUIVC = playerVC;
-        NSLog(@"%@",playerVC);
         _isFloatView = true;
         self.playerUIVC.view.userInteractionEnabled = true;
         [playerVC ExecuteHideBackIcon:false];
         [playerVC ExecuteHideBootomBar:false];
+        NSLog(@"init执行完毕");
     }
     return self;
 }
@@ -58,6 +57,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     // subview
+     NSLog(@"viewDidLoad");
     [self setupSubView];
   
 }
@@ -86,6 +86,7 @@
 #pragma mark - subViews
 
 - (void)setupSubView {
+     NSLog(@"setupSubView");
     // playerView
     if (self.playerUIVC == nil) {
         NSLog(@"playerUIVC为nil");
@@ -106,6 +107,7 @@
         // play
         [self.playerUIVC playWithVid:_vid token:_token];
     }
+     NSLog(@"playerUIVC有值");
     self.playerUIVC.playType = BJVPlayerViewScreenFullScreenType;
     [self bjl_addChildViewController:self.playerUIVC];
     [self.playerUIVC didMoveToParentViewController:self];
@@ -129,7 +131,7 @@
         
     }];
     [self.view addSubview:self.playerUIVC.view];
-    NSLog(@"addSubview");
+    NSLog(@"addSubview执行完毕");
 }
 
 
