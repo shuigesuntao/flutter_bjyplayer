@@ -41,6 +41,7 @@
 }
 - (instancetype)initWithVideoPlayer:(id)playerVC{
     self = [super init];
+    NSLog(@"小窗全屏初始化");
     if (self) {
         self.playerUIVC = playerVC;
         _isFloatView = true;

@@ -386,7 +386,6 @@ static CGPoint lastCenter;
 #pragma mark -
 
 - (void)fullScreenAction {
-    
     FullScreenViewController * fullVC = [[FullScreenViewController alloc]initWithVideoPlayer:self.playerUIVC];
     [CurrentViewController() bjl_presentFullScreenViewController:fullVC animated:true completion:nil];
 }
