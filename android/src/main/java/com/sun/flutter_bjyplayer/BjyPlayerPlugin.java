@@ -91,6 +91,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         if(call.method.equals("initBjyPlayer")){
+            Log.d("Sun","百家云播放器初始化");
             Logger.setEnable(true);
             Logger.setPriority(Logger.MIN_LOG_PRIORITY);
             Logger.setTag("Sun");
