@@ -42,21 +42,7 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         mFlutterPluginBinding = flutterPluginBinding;
-        Logger.setEnable(true);
-        Logger.setPriority(Logger.MIN_LOG_PRIORITY);
-        Logger.setTag("Sun");
-        Logger.init(flutterPluginBinding.getApplicationContext());
-        EasyFloat.init((Application) flutterPluginBinding.getApplicationContext(),false);
 
-        DownConfig.Builder builder = new DownConfig
-                .Builder(mFlutterPluginBinding.getApplicationContext());
-        DownConfig downConfig = builder.setFilePath(getVideoDownLoadPath()).builder();
-        DownloadManager.init(downConfig);
-        new BJYPlayerSDK.Builder((Application) flutterPluginBinding.getApplicationContext())
-                //如果没有个性域名请注释
-//                .setCustomDomain("e37089826")
-//                .setEncrypt(false)
-                .build();
         channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "bjy_player");
         channel.setMethodCallHandler(this);
         mEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "bjy_player_event");
@@ -104,7 +90,23 @@ public class BjyPlayerPlugin implements FlutterPlugin, MethodChannel.MethodCallH
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-        if(call.method.equals("gotoFullScreenPage")){
+        if(call.method.equals("initBjyPlayer")){
+            Logger.setEnable(true);
+            Logger.setPriority(Logger.MIN_LOG_PRIORITY);
+            Logger.setTag("Sun");
+            Logger.init(mFlutterPluginBinding.getApplicationContext());
+            EasyFloat.init((Application) mFlutterPluginBinding.getApplicationContext(),false);
+
+            DownConfig.Builder builder = new DownConfig
+                    .Builder(mFlutterPluginBinding.getApplicationContext());
+            DownConfig downConfig = builder.setFilePath(getVideoDownLoadPath()).builder();
+            DownloadManager.init(downConfig);
+            new BJYPlayerSDK.Builder((Application) mFlutterPluginBinding.getApplicationContext())
+                    //如果没有个性域名请注释
+//                .setCustomDomain("e37089826")
+//                .setEncrypt(false)
+                    .build();
+        } else if(call.method.equals("gotoFullScreenPage")){
             String videoId = (String)call.argument("videoId");
             String token = (String)call.argument("token");
             String path = (String)call.argument("path");
